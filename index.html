@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Free Fire Panel">
-    <meta name="theme-color" content="#ff7e00">
-    <meta name="msapplication-TileColor" content="#ff7e00">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Free Fire Panel">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0MCIgZmlsbD0iI0ZGN0UwMCIvPjxwYXRoIGQ9Ik05NiA1MUM4OC44MjIgNTEgODMgNTYuODIyIDgzIDY0VjEyOEM4MyAxMzUuMTc4IDg4LjgyMjAxNDEgOTYgMTQxQzEwMy4xNzggMTQxIDEwOSAxMzUuMTc4IDEwOSAxMjhWNjRDMTAgNTYuODIyIDEwMy4xNzggNTEgOTYgNTFaIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0xNDEgOTZDMTQxIDg4LjgyMiAxMzUuMTc4IDgzIDEyOCA4M0g2NEM1Ni44MjIgODMgNTEgODguODIyIDUxIDk2QzUxIDEwMy4xNzggNTYuODIyIDEwOSA2NCAxMDlIMTI4QzEzNS4xNzggMTA5IDE0MSAxMDMuMTc4IDE0MSA5NloiIGZpbGw9IndoaXRlIi8+PC9zdmc+">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acesso ao Painel - Auxílio Free Fire</title>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
@@ -21,21 +11,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            color: #fff;
-            overflow: hidden;
         }
         
         body {
-            position: fixed;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
         }
         
         #particles-js {
@@ -52,205 +34,133 @@
             z-index: 1;
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 30px auto;
             background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(255, 255, 255, 0.08),
-                        0 0 40px rgba(255, 126, 0, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: containerEntrance 0.8s ease-out forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        @keyframes containerEntrance {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         
         header {
             text-align: center;
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            margin-bottom: 20px;
         }
         
         header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #ff7e00, #ff0080, #ff7e00);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #ff7e00, #ff0080);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 25px rgba(255, 126, 0, 0.5);
-            letter-spacing: 1px;
         }
         
         header p {
-            color: #ccc;
-            font-size: 1.1rem;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            color: #aaa;
+            font-size: 1rem;
         }
         
         .input-group {
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
+            margin-bottom: 20px;
         }
         
         .input-group label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #e2e8f0;
             font-weight: 500;
-            font-size: 1.1rem;
         }
         
         .input-group input {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            border-radius: 8px;
             background: rgba(40, 40, 40, 0.7);
             color: white;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            outline: none;
+            transition: all 0.3s;
         }
         
         .input-group input:focus {
+            outline: none;
             border-color: #ff7e00;
             box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .input-group input::placeholder {
-            color: #94a3b8;
         }
         
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: linear-gradient(135deg, #ff7e00, #ff0080);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            margin-bottom: 15px;
-            box-shadow: 0 5px 20px rgba(255, 126, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-            opacity: 0;
-        }
-        
-        .btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .btn:hover:before {
-            left: 100%;
+            transition: all 0.3s;
+            margin-bottom: 10px;
         }
         
         .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(255, 126, 0, 0.5);
-        }
-        
-        .btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 3px 15px rgba(255, 126, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 126, 0, 0.3);
         }
         
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff453a, #d93c33);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #e63c30, #c1352b);
         }
         
         .status {
             text-align: center;
-            margin: 20px 0;
-            padding: 12px;
-            border-radius: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
             font-weight: 500;
             display: none;
-            animation: fadeIn 0.5s ease-out;
         }
         
         .status.success {
             background: rgba(0, 200, 83, 0.2);
             color: #00c853;
             display: block;
-            border: 1px solid rgba(0, 200, 83, 0.3);
         }
         
         .status.error {
             background: rgba(255, 69, 58, 0.2);
             color: #ff453a;
             display: block;
-            border: 1px solid rgba(255, 69, 58, 0.3);
         }
         
         .admin-link {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             color: #94a3b8;
-            animation: fadeInUp 0.8s ease-out 0.8s forwards;
-            opacity: 0;
         }
         
         .admin-link a {
             color: #4facfe;
             text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            position: relative;
-        }
-        
-        .admin-link a:after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #00f2fe;
-            transition: width 0.3s ease;
+            transition: color 0.3s;
         }
         
         .admin-link a:hover {
             color: #00f2fe;
-        }
-        
-        .admin-link a:hover:after {
-            width: 100%;
+            text-decoration: underline;
         }
         
         .hidden {
@@ -258,26 +168,17 @@
         }
 
         .keys-list {
-            margin-top: 25px;
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0;
+            margin-top: 20px;
         }
 
         .key-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
+            padding: 10px;
             background: rgba(40, 40, 40, 0.7);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .key-item:hover {
-            transform: translateX(5px);
-            background: rgba(50, 50, 50, 0.8);
+            border-radius: 8px;
+            margin-bottom: 8px;
         }
 
         .key-info {
@@ -288,122 +189,39 @@
             font-family: 'Courier New', monospace;
             font-weight: bold;
             color: #ff7e00;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .key-expiry {
             font-size: 0.8rem;
             color: #94a3b8;
-            margin-top: 4px;
         }
 
         .cancel-btn {
             background: #ff453a;
             color: white;
             border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
+            border-radius: 5px;
+            padding: 5px 10px;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
-        }
-
-        .cancel-btn:hover {
-            background: #e63c30;
-            transform: scale(1.05);
+            font-size: 0.8rem;
         }
 
         .empty-state {
             text-align: center;
             color: #94a3b8;
-            padding: 25px;
+            padding: 20px;
             font-style: italic;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .admin-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 10px;
         }
     </style>
 </head>
-<script>
-    // Função de login modificada para transição suave
-    function login() {
-        const key = document.getElementById('keyInput').value.trim();
-
-        if (!key) {
-            showStatus('Por favor, insira sua key', 'error');
-            return;
-        }
-
-        showStatus('Validando key...', 'success');
-        
-        // Pequeno delay para visualização do status
-        setTimeout(() => {
-            if (validarKey(key)) {
-                // Transição suave para o painel
-                document.body.style.opacity = '0';
-                document.body.style.transition = 'opacity 0.5s ease';
-                
-                setTimeout(() => {
-                    window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
-                }, 500);
-            } else {
-                showStatus('Key inválida ou expirada!', 'error');
-            }
-        }, 1000);
-    }
-
-    // Forçar modo tela cheia quando a página carregar
-    function activateFullscreen() {
-        // Para iOS Safari
-        if (window.navigator.standalone) {
-            document.documentElement.style.height = '100%';
-            document.body.style.height = '100%';
-        }
-        
-        // Esconder barra de endereço em dispositivos móveis (técnica universal)
-        window.scrollTo(0, 1);
-        
-        // Prevenir comportamentos indesejados
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length > 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-    }
-
-    // Chamar a função quando a página carregar
-    document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar partículas primeiro
-        initParticles();
-        
-        // Ativar modo tela cheia após um pequeno delay
-        setTimeout(activateFullscreen, 100);
-        
-        // Configurar evento de tecla Enter
-        document.getElementById('keyInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                login();
-            }
-        });
-        
-        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                adminLogin();
-            }
-        });
-    });
-
-    // Também ativar fullscreen quando a orientação mudar
-    window.addEventListener('orientationchange', function() {
-        setTimeout(activateFullscreen, 300);
-    });
-</script>
 <body>
     <div id="particles-js"></div>
 
@@ -450,13 +268,13 @@
     <div id="adminPanelContainer" class="container hidden">
         <header>
             <h1>Gerenciador de Keys</h1>
-            <p>Gerencie keys de acesso para o painel</p>
+            <p>Gerencie todas as keys de acesso</p>
         </header>
         
-        <div class="input-group">
+        <div class="admin-panel">
             <h3>Gerenciar Keys</h3>
             <button class="btn" onclick="generateKey()">Gerar Nova Key</button>
-            <button class="btn btn-secondary" onclick="clearAllKeys()">Limpar Todas as Keys</button>
+            <button class="btn btn-danger" onclick="clearAllKeys()">Limpar Todas as Keys</button>
         </div>
         
         <div id="adminStatus" class="status"></div>
@@ -464,7 +282,7 @@
         <div class="keys-list">
             <h3>Keys Ativas</h3>
             <div id="keysContainer">
-                <div class="empty-state">Nenhuma key ativa</div>
+                <div class="empty-state">Carregando keys...</div>
             </div>
         </div>
         
@@ -475,133 +293,170 @@
 
     <script>
         // Configuração das partículas
-        function initParticles() {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": {
-                        "value": 100,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#ff7e00"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.4,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 0.8,
-                            "opacity_min": 0.2,
-                            "sync": false
-                        }
-                    },
-                    "size": {
-                        "value": 3,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 2,
-                            "size_min": 0.5,
-                            "sync": false
-                        }
-                    },
-                    "line_linked": {
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
                         "enable": true,
-                        "distance": 140,
-                        "color": "#ff7e00",
-                        "opacity": 0.3,
-                        "width": 1.2
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 1.8,
-                        "direction": "none",
-                        "random": true,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false,
-                        "attract": {
-                            "enable": true,
-                            "rotateX": 800,
-                            "rotateY": 1600
-                        }
+                        "value_area": 800
                     }
                 },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "repulse"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "repulse": {
-                            "distance": 120,
-                            "duration": 0.5
-                        },
-                        "push": {
-                            "particles_nb": 5
-                        }
-                    }
+                "color": {
+                    "value": "#ffffff"
                 },
-                "retina_detect": true
-            });
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.3,
+                    "random": true
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            }
+        });
+
+        // Sistema de armazenamento sincronizado
+        const ADMIN_PASSWORD = "admin123";
+        const MASTER_STORAGE_KEY = 'ff_master_keys';
+
+        // Inicializar sistema de keys
+        function initializeKeySystem() {
+            if (!localStorage.getItem(MASTER_STORAGE_KEY)) {
+                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify([]));
+            }
+            syncKeysWithURL();
         }
 
-        // Sistema de armazenamento de keys (localStorage)
-        const ADMIN_PASSWORD = "admin123";
-        
-        // Inicializar keys se não existirem
-        if (!localStorage.getItem('accessKeys')) {
-            localStorage.setItem('accessKeys', JSON.stringify([]));
+        // Sincronizar keys com URL
+        function syncKeysWithURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlKey = urlParams.get('key');
+            const allKeys = getAllKeys();
+            
+            if (urlKey) {
+                // Verificar se a key da URL já existe no sistema
+                const keyExists = allKeys.some(k => k.key_value === urlKey && k.is_active);
+                
+                if (!keyExists) {
+                    // Adicionar key da URL ao sistema master
+                    addKeyToMaster(urlKey);
+                }
+            }
+            
+            // Remover da URL se não for válida
+            if (urlKey && !isKeyValid(urlKey)) {
+                const url = new URL(window.location);
+                url.searchParams.delete('key');
+                window.history.replaceState({}, '', url);
+            }
         }
-        
-        // Elementos do DOM
-        const status = document.getElementById('status');
-        const adminStatus = document.getElementById('adminStatus');
-        
+
+        // Obter todas as keys do sistema master
+        function getAllKeys() {
+            try {
+                return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+            } catch (e) {
+                console.error('Erro ao ler keys:', e);
+                return [];
+            }
+        }
+
+        // Salvar todas as keys no sistema master
+        function saveAllKeys(keys) {
+            try {
+                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
+                
+                // Sincronizar com URL
+                syncKeysWithURL();
+            } catch (e) {
+                console.error('Erro ao salvar keys:', e);
+            }
+        }
+
+        // Adicionar key ao sistema master
+        function addKeyToMaster(keyValue, expirationHours = 1) {
+            const keys = getAllKeys();
+            const expiration = Date.now() + (expirationHours * 60 * 60 * 1000);
+            
+            // Remover key existente se já houver
+            const filteredKeys = keys.filter(k => k.key_value !== keyValue);
+            
+            filteredKeys.push({
+                key_value: keyValue,
+                expiration: expiration,
+                created_at: new Date().toISOString(),
+                is_active: true
+            });
+            
+            saveAllKeys(filteredKeys);
+            return filteredKeys;
+        }
+
+        // Remover key do sistema master
+        function removeKeyFromMaster(keyValue) {
+            const keys = getAllKeys();
+            const updatedKeys = keys.filter(k => k.key_value !== keyValue);
+            saveAllKeys(updatedKeys);
+            
+            // Remover também da URL se for a mesma key
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlKey = urlParams.get('key');
+            
+            if (urlKey === keyValue) {
+                const url = new URL(window.location);
+                url.searchParams.delete('key');
+                window.history.replaceState({}, '', url);
+            }
+            
+            return updatedKeys;
+        }
+
+        // Verificar se key é válida
+        function isKeyValid(keyValue) {
+            const keys = getAllKeys();
+            const agora = Date.now();
+            
+            const keyData = keys.find(k => k.key_value === keyValue);
+            return keyData && keyData.is_active && keyData.expiration > agora;
+        }
+
+        // Obter keys válidas de todas as fontes (sincronizadas)
+        function getValidKeys() {
+            const keys = getAllKeys();
+            const agora = Date.now();
+            
+            return keys.filter(k => k.is_active && k.expiration > agora);
+        }
+
         // Função para mostrar status
         function showStatus(message, type, isAdmin = false) {
-            const element = isAdmin ? adminStatus : status;
+            const element = isAdmin ? document.getElementById('adminStatus') : document.getElementById('status');
             element.textContent = message;
             element.className = 'status ' + type;
             
             setTimeout(() => {
                 element.className = 'status';
             }, 3000);
-        }
-
-        // Função para validar a key
-        function validarKey(key) {
-            try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                const agora = Date.now();
-                
-                const keyData = keys.find(k => k.key_value === key);
-                
-                if (!keyData) return false;
-                
-                return keyData.is_active && keyData.expiration > agora;
-            } catch (error) {
-                console.error("Erro ao validar key:", error);
-                return false;
-            }
         }
 
         // Função de login
@@ -616,7 +471,12 @@
             showStatus('Validando key...', 'success');
             
             setTimeout(() => {
-                if (validarKey(key)) {
+                if (isKeyValid(key)) {
+                    // Adicionar key à URL para sincronização
+                    const url = new URL(window.location);
+                    url.searchParams.set('key', key);
+                    window.history.replaceState({}, '', url);
+                    
                     window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
                 } else {
                     showStatus('Key inválida ou expirada!', 'error');
@@ -646,103 +506,72 @@
             if (password === ADMIN_PASSWORD) {
                 document.getElementById('adminLoginContainer').classList.add('hidden');
                 document.getElementById('adminPanelContainer').classList.remove('hidden');
-                loadKeys();
+                loadAllKeys();
             } else {
                 showStatus('Senha incorreta!', 'error', true);
             }
         }
         
-        // Carregar keys para o painel administrativo
-        function loadKeys() {
-            try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                const keysContainer = document.getElementById('keysContainer');
-                const agora = Date.now();
-                
-                const activeKeys = keys.filter(k => k.is_active && k.expiration > agora);
-                
-                if (activeKeys.length === 0) {
-                    keysContainer.innerHTML = '<div class="empty-state">Nenhuma key ativa</div>';
-                    return;
-                }
-                
-                keysContainer.innerHTML = '';
-                
-                activeKeys.forEach(keyData => {
-                    const keyElement = document.createElement('div');
-                    keyElement.className = 'key-item';
-                    keyElement.innerHTML = `
-                        <div class="key-info">
-                            <div class="key-value">${keyData.key_value}</div>
-                            <div class="key-expiry">Expira: ${new Date(keyData.expiration).toLocaleString('pt-BR')}</div>
+        // Carregar todas as keys
+        function loadAllKeys() {
+            const keys = getValidKeys();
+            const keysContainer = document.getElementById('keysContainer');
+            
+            if (keys.length === 0) {
+                keysContainer.innerHTML = '<div class="empty-state">Nenhuma key ativa</div>';
+                return;
+            }
+            
+            keysContainer.innerHTML = '';
+            
+            keys.forEach((keyData) => {
+                const keyElement = document.createElement('div');
+                keyElement.className = 'key-item';
+                keyElement.innerHTML = `
+                    <div class="key-info">
+                        <div class="key-value">${keyData.key_value}</div>
+                        <div class="key-expiry">
+                            Expira: ${new Date(keyData.expiration).toLocaleString('pt-BR')}
+                            <br><small>Criada: ${new Date(keyData.created_at).toLocaleString('pt-BR')}</small>
                         </div>
-                        <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">Cancelar</button>
-                    `;
-                    
-                    keysContainer.appendChild(keyElement);
-                });
-            } catch (error) {
-                console.error("Erro ao carregar keys:", error);
-                showStatus('Erro ao carregar keys', 'error', true);
-            }
+                    </div>
+                    <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">Cancelar</button>
+                `;
+                
+                keysContainer.appendChild(keyElement);
+            });
         }
         
-        // Gerar uma nova key
-        function generateKey() {
-            try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                
-                const key = 'key-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                const expiration = Date.now() + (60 * 60 * 1000);
-                
-                keys.push({
-                    key_value: key,
-                    expiration: expiration,
-                    created_at: new Date().toISOString(),
-                    is_active: true
-                });
-                
-                localStorage.setItem('accessKeys', JSON.stringify(keys));
-                
-                showStatus('Key gerada com sucesso! Copiada para a área de transferência.', 'success', true);
-                
-                loadKeys();
-                
-                try {
-                    navigator.clipboard.writeText(key);
-                } catch (err) {
-                    console.log('Não foi possível copiar para a área de transferência');
-                }
-            } catch (error) {
-                console.error("Erro ao gerar key:", error);
-                showStatus('Erro ao gerar key', 'error', true);
-            }
-        }
-        
-        // Cancelar uma key
+        // Cancelar uma key específica
         function cancelKey(key) {
             if (!confirm(`Tem certeza que deseja cancelar a key:\n${key}?`)) {
                 return;
             }
             
+            removeKeyFromMaster(key);
+            showStatus('Key cancelada com sucesso!', 'success', true);
+            loadAllKeys();
+        }
+        
+        // Gerar uma nova key
+        function generateKey() {
+            const key = 'key-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            
+            addKeyToMaster(key);
+            
+            // Também adicionar à URL para sincronização imediata
+            const url = new URL(window.location);
+            url.searchParams.set('key', key);
+            window.history.replaceState({}, '', url);
+            
+            showStatus('Key gerada com sucesso! Copiada para a área de transferência.', 'success', true);
+            
+            loadAllKeys();
+            
             try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                
-                const updatedKeys = keys.map(k => {
-                    if (k.key_value === key) {
-                        return { ...k, is_active: false, cancelled_at: new Date().toISOString() };
-                    }
-                    return k;
-                });
-                
-                localStorage.setItem('accessKeys', JSON.stringify(updatedKeys));
-                
-                showStatus('Key cancelada com sucesso!', 'success', true);
-                
-                loadKeys();
-            } catch (error) {
-                console.error("Erro ao cancelar key:", error);
-                showStatus('Erro ao cancelar key', 'error', true);
+                navigator.clipboard.writeText(key);
+            } catch (err) {
+                console.log('Não foi possível copiar para a área de transferência');
             }
         }
         
@@ -752,30 +581,34 @@
                 return;
             }
             
-            try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                
-                const updatedKeys = keys.map(k => {
-                    if (k.is_active && k.expiration > Date.now()) {
-                        return { ...k, is_active: false, cancelled_at: new Date().toISOString() };
-                    }
-                    return k;
-                });
-                
-                localStorage.setItem('accessKeys', JSON.stringify(updatedKeys));
-                
-                showStatus('Todas as keys foram canceladas!', 'success', true);
-                
-                loadKeys();
-            } catch (error) {
-                console.error("Erro ao limpar keys:", error);
-                showStatus('Erro ao limpar keys', 'error', true);
-            }
+            saveAllKeys([]);
+            
+            // Limpar também a URL
+            const url = new URL(window.location);
+            url.searchParams.delete('key');
+            window.history.replaceState({}, '', url);
+            
+            showStatus('Todas as keys foram canceladas!', 'success', true);
+            loadAllKeys();
         }
         
         // Inicializar a aplicação
         document.addEventListener('DOMContentLoaded', function() {
-            initParticles();
+            initializeKeySystem();
+            
+            // Verificar se há key na URL e preencher automaticamente
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlKey = urlParams.get('key');
+            if (urlKey) {
+                document.getElementById('keyInput').value = urlKey;
+                
+                // Se a key da URL for válida, redirecionar automaticamente
+                if (isKeyValid(urlKey)) {
+                    setTimeout(() => {
+                        window.location.href = `painel.html?key=${encodeURIComponent(urlKey)}`;
+                    }, 1000);
+                }
+            }
             
             // Tecla Enter para submeter
             document.getElementById('keyInput').addEventListener('keypress', function(e) {
@@ -788,17 +621,6 @@
                 if (e.key === 'Enter') {
                     adminLogin();
                 }
-            });
-            
-            // Prevenir zoom e comportamentos indesejados
-            document.addEventListener('touchmove', function(e) {
-                if (e.touches.length > 1) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
             });
         });
     </script>

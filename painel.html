@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Free Fire Panel">
     <meta name="theme-color" content="#ff7e00">
-    <meta name="msapplication-TileColor" content="#ff7e00">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Free Fire Panel">
     <title>Painel de Controle - Auxílio Free Fire</title>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
@@ -20,25 +14,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            color: #fff;
-            overflow: hidden;
         }
         
         body {
-            position: fixed;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px 0;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
         }
         
         #particles-js {
@@ -55,81 +37,50 @@
             z-index: 1;
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 30px auto;
             background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px rgba(255, 255, 255, 0.08),
-                        0 0 40px rgba(255, 126, 0, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: containerEntrance 0.8s ease-out forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        @keyframes containerEntrance {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         
         header {
             text-align: center;
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            margin-bottom: 20px;
         }
         
         header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, #ff7e00, #ff0080, #ff7e00);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 25px rgba(255, 126, 0, 0.5);
-            letter-spacing: 1px;
         }
         
         header p {
-            color: #ccc;
+            color: #aaa;
             font-size: 1.1rem;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         .user-info {
             text-align: center;
             margin-bottom: 25px;
-            padding: 20px;
+            padding: 15px;
             background: rgba(45, 45, 45, 0.5);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-            opacity: 0;
+            border-radius: 10px;
         }
         
         .user-info p {
-            margin: 10px 0;
-            font-size: 16px;
+            margin: 8px 0;
         }
         
         .key-value {
             font-family: 'Courier New', monospace;
             font-weight: bold;
             color: #ff7e00;
-            font-size: 17px;
-            text-shadow: 0 0 10px rgba(255, 126, 0, 0.3);
         }
         
         .status-connected {
@@ -144,51 +95,31 @@
         
         .collapsible-tab {
             margin-bottom: 15px;
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: hidden;
             background: rgba(35, 35, 35, 0.6);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-            opacity: 0;
-        }
-        
-        .collapsible-tab:nth-child(1) {
-            animation-delay: 0.6s;
-        }
-        
-        .collapsible-tab:nth-child(2) {
-            animation-delay: 0.8s;
         }
         
         .collapsible-tab-header {
-            padding: 16px 20px;
-            background: linear-gradient(135deg, rgba(70, 70, 70, 0.7), rgba(50, 50, 50, 0.7));
+            padding: 15px;
+            background: rgba(70, 70, 70, 0.7);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .collapsible-tab-header:hover {
-            background: linear-gradient(135deg, rgba(85, 85, 85, 0.7), rgba(65, 65, 65, 0.7));
-            transform: translateX(5px);
         }
         
         .collapsible-tab-header h3 {
-            font-size: 18px;
+            font-size: 1.1rem;
             color: #ff7e00;
             margin: 0;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         
         .collapsible-tab-content {
             padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: max-height 0.3s ease;
         }
         
         .collapsible-tab-content.open {
@@ -204,134 +135,69 @@
         .checkbox-item {
             display: flex;
             align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s ease;
-            background: rgba(30, 30, 30, 0.4);
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .checkbox-item:last-child {
             border-bottom: none;
         }
         
-        .checkbox-item:hover {
-            background: rgba(50, 50, 50, 0.5);
-            transform: translateX(8px);
-        }
-        
         .checkbox-item input[type="checkbox"] {
-            margin-right: 15px;
-            width: 22px;
-            height: 22px;
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
             accent-color: #ff7e00;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: all 0.2s ease;
-        }
-        
-        .checkbox-item input[type="checkbox"]:checked {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(255, 126, 0, 0.5);
         }
         
         .checkbox-item label {
             color: #e2e8f0;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            flex: 1;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
-        }
-        
-        .checkbox-item input[type="checkbox"]:checked + label {
-            color: #ff7e00;
-            text-shadow: 0 0 10px rgba(255, 126, 0, 0.3);
+            font-size: 1rem;
         }
         
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: linear-gradient(135deg, #ff7e00, #ff0080);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            margin-bottom: 15px;
-            box-shadow: 0 5px 20px rgba(255, 126, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out 1s forwards;
-            opacity: 0;
-        }
-        
-        .btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-            z-index: 1;
-        }
-        
-        .btn:hover:before {
-            left: 100%;
+            margin-bottom: 10px;
+            transition: all 0.3s;
         }
         
         .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(255, 126, 0, 0.5);
-        }
-        
-        .btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 3px 15px rgba(255, 126, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 126, 0, 0.3);
         }
         
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
         
         .active-features {
             margin-top: 20px;
-            padding: 20px;
+            padding: 15px;
             background: rgba(40, 40, 40, 0.6);
-            border-radius: 15px;
-            border-left: 5px solid #00c853;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            display: none;
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0;
+            border-radius: 10px;
+            border-left: 4px solid #00c853;
         }
         
         .active-features h3 {
             color: #00c853;
-            margin-bottom: 12px;
-            font-size: 17px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        
-        .active-features p {
-            margin: 8px 0;
-            font-size: 15px;
-            color: #e2e8f0;
+            margin-bottom: 8px;
         }
         
         .tab-indicator {
-            transition: transform 0.4s;
-            font-size: 16px;
+            transition: transform 0.3s;
         }
         
         .rotate {
@@ -339,146 +205,51 @@
         }
         
         .timer-warning {
-            animation: pulse 1s infinite alternate;
             color: #ff453a !important;
+            animation: pulse 1s infinite;
         }
         
         @keyframes pulse {
-            from { opacity: 1; }
-            to { opacity: 0.5; }
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
         
-        .glow-text {
-            animation: textGlow 2s infinite alternate;
-        }
-        
-        @keyframes textGlow {
-            from {
-                text-shadow: 0 0 10px rgba(255, 126, 0, 0.5);
-            }
-            to {
-                text-shadow: 0 0 20px rgba(255, 126, 0, 0.8), 0 0 30px rgba(255, 126, 0, 0.6);
-            }
-        }
-        
-        .feature-activated {
-            animation: featurePulse 0.5s ease;
-        }
-        
-        @keyframes featurePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
         .access-denied {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
         }
-
+        
         .access-denied h2 {
             color: #ff453a;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-
-        .access-denied p {
-            margin-bottom: 30px;
-            color: #ccc;
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
-<script>
-    // Função para ativar modo tela cheia
-    function activateFullscreen() {
-        // Para iOS Safari (modo standalone)
-        if (window.navigator.standalone) {
-            document.documentElement.style.height = '100%';
-            document.body.style.height = '100%';
-        }
-        
-        // Esconder barra de endereço em dispositivos móveis
-        window.scrollTo(0, 1);
-        
-        // Prevenir zoom e comportamentos indesejados
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length > 1) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-    }
-
-    // Função de logout com transição suave
-    function logout() {
-        if (confirm('Tem certeza que deseja sair do painel?')) {
-            if (timerInterval) clearInterval(timerInterval);
-            
-            // Transição suave de volta para o login
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 500);
-        }
-    }
-
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', function() {
-        // Configurar partículas
-        particlesJS('particles-js', {
-            // Sua configuração de partículas aqui
-        });
-
-        // Ativar modo tela cheia
-        setTimeout(activateFullscreen, 100);
-        
-        // Verificar acesso
-        verificarAcesso();
-        
-        // Adicionar event listeners
-        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', updateActiveFeatures);
-        });
-        
-        // Inicializar estado dos recursos ativados
-        updateActiveFeatures();
-    });
-
-    // Reforçar fullscreen em eventos de redimensionamento
-    window.addEventListener('resize', activateFullscreen);
-    window.addEventListener('orientationchange', function() {
-        setTimeout(activateFullscreen, 300);
-    });
-
-    // Prevenir que a página seja acessada sem uma key válida
-    window.addEventListener('beforeunload', function() {
-        if (timerInterval) clearInterval(timerInterval);
-    });
-</script>
 <body>
     <div id="particles-js"></div>
 
     <div class="container">
-        <div id="accessDenied" class="access-denied" style="display: none;">
+        <div id="accessDenied" class="access-denied hidden">
             <h2>Acesso Negado</h2>
             <p>Sua sessão expirou ou a key é inválida.</p>
-            <button class="btn" onclick="window.location.href = 'index.html'">Voltar para Login</button>
+            <button class="btn" onclick="redirectToLogin()">Voltar para Login</button>
         </div>
 
         <div id="panelContent">
             <header>
-                <h1 class="glow-text">PAINEL FREE FIRE</h1>
+                <h1>PAINEL FREE FIRE</h1>
                 <p>Bem-vindo ao sistema de auxílio Free Fire</p>
             </header>
             
             <div class="user-info">
-                <p>Key utilizada: <span class="key-value" id="userKey">Nenhuma</span></p>
-                <p>Status: <span class="status-connected" id="connectionStatus">Conectado</span></p>
-                <p>Tempo restante: <span id="timeRemaining">01:00:00</span></p>
+                <p>Key utilizada: <span class="key-value" id="userKey">Carregando...</span></p>
+                <p>Status: <span class="status-connected" id="statusText">Verificando...</span></p>
+                <p>Tempo restante: <span id="timeRemaining">00:00:00</span></p>
             </div>
             
             <div class="collapsible-tab">
@@ -556,52 +327,31 @@
                     "value": "#ff7e00"
                 },
                 "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    }
+                    "type": "circle"
                 },
                 "opacity": {
                     "value": 0.5,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 0.8,
-                        "opacity_min": 0.2,
-                        "sync": false
-                    }
+                    "random": true
                 },
                 "size": {
                     "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 2,
-                        "size_min": 0.5,
-                        "sync": false
-                    }
+                    "random": true
                 },
                 "line_linked": {
                     "enable": true,
-                    "distance": 140,
+                    "distance": 150,
                     "color": "#ff7e00",
-                    "opacity": 0.3,
-                    "width": 1.2
+                    "opacity": 0.4,
+                    "width": 1
                 },
                 "move": {
                     "enable": true,
-                    "speed": 1.8,
+                    "speed": 2,
                     "direction": "none",
                     "random": true,
                     "straight": false,
                     "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": true,
-                        "rotateX": 800,
-                        "rotateY": 1600
-                    }
+                    "bounce": false
                 }
             },
             "interactivity": {
@@ -609,65 +359,71 @@
                 "events": {
                     "onhover": {
                         "enable": true,
-                        "mode": "repulse"
+                        "mode": "grab"
                     },
                     "onclick": {
                         "enable": true,
                         "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "repulse": {
-                        "distance": 120,
-                        "duration": 0.5
-                    },
-                    "push": {
-                        "particles_nb": 5
                     }
                 }
-            },
-            "retina_detect": true
+            }
         });
+
+        // Sistema de armazenamento sincronizado (igual ao index.html)
+        const MASTER_STORAGE_KEY = 'ff_master_keys';
 
         // Variáveis globais
         let timerInterval;
         let currentKey = '';
 
-        // Função para validar a key
-        function validarKey(key) {
+        // Obter todas as keys do sistema master
+        function getAllKeys() {
             try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                const agora = Date.now();
-                
-                const keyData = keys.find(k => k.key_value === key);
-                
-                if (!keyData) return false;
-                
-                return keyData.is_active && keyData.expiration > agora;
-            } catch (error) {
-                console.error("Erro ao validar key:", error);
-                return false;
+                return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+            } catch (e) {
+                console.error('Erro ao ler keys:', e);
+                return [];
             }
         }
 
-        // Função para obter tempo restante da key
-        function getTempoRestante(key) {
-            try {
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                const keyData = keys.find(k => k.key_value === key);
-                
-                if (!keyData) return 0;
-                
-                const agora = Date.now();
-                return Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
-            } catch (error) {
-                console.error("Erro ao obter tempo restante:", error);
-                return 0;
-            }
+        // Verificar se key é válida
+        function isKeyValid(keyValue) {
+            const keys = getAllKeys();
+            const agora = Date.now();
+            
+            const keyData = keys.find(k => k.key_value === keyValue);
+            return keyData && keyData.is_active && keyData.expiration > agora;
         }
 
-        // Função para alternar as abas
+        // Remover key do sistema master
+        function removeKeyFromMaster(keyValue) {
+            const keys = getAllKeys();
+            const updatedKeys = keys.filter(k => k.key_value !== keyValue);
+            
+            try {
+                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(updatedKeys));
+            } catch (e) {
+                console.error('Erro ao remover key:', e);
+            }
+            
+            return updatedKeys;
+        }
+
+        // Obter tempo restante de uma key
+        function getTempoRestante(keyValue) {
+            const keys = getAllKeys();
+            const agora = Date.now();
+            
+            for (const keyData of keys) {
+                if (keyData.key_value === keyValue) {
+                    return Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
+                }
+            }
+            
+            return 0;
+        }
+
+        // Função para alternar abas
         function toggleTab(tabId) {
             const content = document.getElementById(tabId + 'Content');
             const indicator = document.getElementById(tabId + 'Indicator');
@@ -698,9 +454,6 @@
             if (activeFeatures.length > 0) {
                 activeFeaturesList.textContent = activeFeatures.join(', ');
                 activeFeaturesContainer.style.display = 'block';
-                setTimeout(() => {
-                    activeFeaturesContainer.style.opacity = '1';
-                }, 10);
             } else {
                 activeFeaturesList.textContent = 'Nenhum recurso ativado';
                 activeFeaturesContainer.style.display = 'none';
@@ -718,71 +471,10 @@
             
             if (selectedCount > 0) {
                 updateActiveFeatures();
-                
-                // Efeito visual
-                const btn = document.querySelector('.btn');
-                btn.classList.add('feature-activated');
-                setTimeout(() => {
-                    btn.classList.remove('feature-activated');
-                }, 500);
-                
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        checkbox.parentElement.classList.add('feature-activated');
-                        setTimeout(() => {
-                            checkbox.parentElement.classList.remove('feature-activated');
-                        }, 500);
-                    }
-                });
-                
-                // Mensagem de sucesso
-                showNotification(selectedCount + ' recurso(s) ativado(s) com sucesso!', 'success');
+                alert(selectedCount + ' recurso(s) ativado(s) com sucesso!');
             } else {
-                showNotification('Selecione pelo menos uma opção!', 'error');
+                alert('Selecione pelo menos uma opção!');
             }
-        }
-        
-        // Função de notificação
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.textContent = message;
-            notification.style.position = 'fixed';
-            notification.style.top = '20px';
-            notification.style.left = '50%';
-            notification.style.transform = 'translateX(-50%)';
-            notification.style.padding = '12px 20px';
-            notification.style.borderRadius = '8px';
-            notification.style.zIndex = '1000';
-            notification.style.fontWeight = '500';
-            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-            
-            if (type === 'success') {
-                notification.style.background = 'rgba(0, 200, 83, 0.9)';
-                notification.style.color = 'white';
-            } else {
-                notification.style.background = 'rgba(255, 69, 58, 0.9)';
-                notification.style.color = 'white';
-            }
-            
-            document.body.appendChild(notification);
-            
-            // Animação de entrada
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateX(-50%) translateY(-20px)';
-            setTimeout(() => {
-                notification.style.opacity = '1';
-                notification.style.transform = 'translateX(-50%) translateY(0)';
-                notification.style.transition = 'all 0.3s ease';
-            }, 10);
-            
-            // Remover após 3 segundos
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateX(-50%) translateY(-20px)';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
         }
         
         // Função de logout
@@ -793,13 +485,24 @@
             }
         }
         
+        // Função para redirecionar para login
+        function redirectToLogin() {
+            if (timerInterval) clearInterval(timerInterval);
+            window.location.href = 'index.html';
+        }
+        
         // Função do cronômetro
         function startTimer(duration) {
-            if (timerInterval) clearInterval(timerInterval);
-            
             let timer = duration;
             const timerElement = document.getElementById('timeRemaining');
-            const statusElement = document.getElementById('connectionStatus');
+            const statusElement = document.getElementById('statusText');
+            
+            // Atualizar imediatamente
+            const hours = Math.floor(timer / 3600);
+            const minutes = Math.floor((timer % 3600) / 60);
+            const seconds = timer % 60;
+            timerElement.textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             timerInterval = setInterval(function() {
                 const hours = Math.floor(timer / 3600);
@@ -809,31 +512,24 @@
                 timerElement.textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                // Atualizar tempo restante no localStorage
-                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                const keyIndex = keys.findIndex(k => k.key_value === currentKey);
-                
-                if (keyIndex !== -1) {
-                    keys[keyIndex].expiration = Date.now() + (timer * 1000);
-                    localStorage.setItem('accessKeys', JSON.stringify(keys));
-                }
-                
                 // Alerta visual quando restam 5 minutos
                 if (timer <= 300) {
                     timerElement.classList.add('timer-warning');
-                    statusElement.classList.remove('status-connected');
-                    statusElement.classList.add('status-error');
                     statusElement.textContent = 'Expirando em breve';
+                    statusElement.className = 'status-error';
                 }
                 
                 if (--timer < 0) {
                     clearInterval(timerInterval);
-                    showNotification('Sua sessão expirou!', 'error');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 2000);
+                    showAccessDenied();
                 }
             }, 1000);
+        }
+        
+        // Função para mostrar acesso negado
+        function showAccessDenied() {
+            document.getElementById('panelContent').style.display = 'none';
+            document.getElementById('accessDenied').style.display = 'block';
         }
         
         // Função para verificar acesso
@@ -841,37 +537,29 @@
             const urlParams = new URLSearchParams(window.location.search);
             const key = urlParams.get('key');
             
-            if (!key) {
-                showAccessDenied();
-                return;
-            }
-            
-            if (!validarKey(key)) {
-                showAccessDenied();
-                return;
-            }
-            
-            currentKey = key;
-            document.getElementById('userKey').textContent = key;
-            
-            const tempoRestante = getTempoRestante(key);
-            if (tempoRestante > 0) {
-                startTimer(tempoRestante);
+            if (key && isKeyValid(key)) {
+                currentKey = key;
+                document.getElementById('userKey').textContent = key;
+                document.getElementById('statusText').textContent = 'Conectado';
+                document.getElementById('statusText').className = 'status-connected';
                 
-                // Abrir as duas abas automaticamente ao carregar
-                setTimeout(() => {
-                    toggleTab('tab1');
-                    toggleTab('tab2');
-                }, 500);
+                const tempoRestante = getTempoRestante(key);
+                if (tempoRestante > 0) {
+                    startTimer(tempoRestante);
+                    
+                    // Abrir as abas automaticamente
+                    setTimeout(() => {
+                        toggleTab('tab1');
+                        toggleTab('tab2');
+                    }, 300);
+                } else {
+                    // Key expirada - remover do sistema
+                    removeKeyFromMaster(key);
+                    showAccessDenied();
+                }
             } else {
                 showAccessDenied();
             }
-        }
-        
-        // Função para mostrar acesso negado
-        function showAccessDenied() {
-            document.getElementById('panelContent').style.display = 'none';
-            document.getElementById('accessDenied').style.display = 'block';
         }
         
         // Inicialização
