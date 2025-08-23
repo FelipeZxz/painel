@@ -11,7 +11,6 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Free Fire Panel">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0MCIgZmlsbD0iI0ZGN0UwMCIvPjxwYXRoIGQ9Ik05NiA1MUM4OC44MjIgNTEgODMgNTYuODIyIDgzIDY0VjEyOEM4MyAxMzUuMTc4IDg4LjgyMiAxNDEgOTYgMTQxQzEwMy4xNzggMTQxIDEwOSAxMzUuMTc4IDEwOSAxMjhWNjRDMTAgNTYuODIyIDEwMy4xNzggNTEgOTYgNTFaIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0xNDEgOTZDMTQxIDg4LjgyMiAxMzUuMTc4IDgzIDEyOCA4M0g2NEM1Ni44MjIgODMgNTEgODguODIyIDUxIDk2QzUxIDEwMy4xNzggNTYuODIyIDEwOSA2NCAxMDlIMTI4QzEzNS4xNzggMTA5IDE0MSAxMDMuMTc4IDE0MSA5NloiIGZpbGw9IndoaXRlIi8+PC9zdmc+">
     <title>Painel de Controle - Auxílio Free Fire</title>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
@@ -134,6 +133,11 @@
         
         .status-connected {
             color: #00c853;
+            font-weight: bold;
+        }
+        
+        .status-error {
+            color: #ff453a;
             font-weight: bold;
         }
         
@@ -315,6 +319,7 @@
             color: #00c853;
             margin-bottom: 12px;
             font-size: 17px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         
         .active-features p {
@@ -364,80 +369,103 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+
+        .access-denied {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .access-denied h2 {
+            color: #ff453a;
+            margin-bottom: 20px;
+        }
+
+        .access-denied p {
+            margin-bottom: 30px;
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
 
     <div class="container">
-        <header>
-            <h1 class="glow-text">PAINEL FREE FIRE</h1>
-            <p>Bem-vindo ao sistema de auxílio Free Fire</p>
-        </header>
-        
-        <div class="user-info">
-            <p>Key utilizada: <span class="key-value" id="userKey">Nenhuma</span></p>
-            <p>Status: <span class="status-connected">Conectado</span></p>
-            <p>Tempo restante: <span id="timeRemaining">01:00:00</span></p>
+        <div id="accessDenied" class="access-denied" style="display: none;">
+            <h2>Acesso Negado</h2>
+            <p>Sua sessão expirou ou a key é inválida.</p>
+            <button class="btn" onclick="window.location.href = 'index.html'">Voltar para Login</button>
         </div>
-        
-        <div class="collapsible-tab">
-            <div class="collapsible-tab-header" onclick="toggleTab('tab1')">
-                <h3>Opções de Gameplay</h3>
-                <span id="tab1Indicator" class="tab-indicator">▼</span>
+
+        <div id="panelContent">
+            <header>
+                <h1 class="glow-text">PAINEL FREE FIRE</h1>
+                <p>Bem-vindo ao sistema de auxílio Free Fire</p>
+            </header>
+            
+            <div class="user-info">
+                <p>Key utilizada: <span class="key-value" id="userKey">Nenhuma</span></p>
+                <p>Status: <span class="status-connected" id="connectionStatus">Conectado</span></p>
+                <p>Tempo restante: <span id="timeRemaining">01:00:00</span></p>
             </div>
-            <div id="tab1Content" class="collapsible-tab-content">
-                <ul class="checkbox-list">
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option1">
-                        <label for="option1">Modo Turbo</label>
-                    </li>
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option2">
-                        <label for="option2">120 FPS</label>
-                    </li>
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option3">
-                        <label for="option3">Auto Limpeza</label>
-                    </li>
-                </ul>
+            
+            <div class="collapsible-tab">
+                <div class="collapsible-tab-header" onclick="toggleTab('tab1')">
+                    <h3>Opções de Gameplay</h3>
+                    <span id="tab1Indicator" class="tab-indicator">▼</span>
+                </div>
+                <div id="tab1Content" class="collapsible-tab-content">
+                    <ul class="checkbox-list">
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option1">
+                            <label for="option1">Sistema Avançado</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option2">
+                            <label for="option2">120 FPS</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option3">
+                            <label for="option3">No Recoil</label>
+                        </li>
+                    </ul>
+                </div>
             </div>
+            
+            <div class="collapsible-tab">
+                <div class="collapsible-tab-header" onclick="toggleTab('tab2')">
+                    <h3>Opções de Mira</h3>
+                    <span id="tab2Indicator" class="tab-indicator">▼</span>
+                </div>
+                <div id="tab2Content" class="collapsible-tab-content">
+                    <ul class="checkbox-list">
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option4">
+                            <label for="option4">Nova Seção</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option5">
+                            <label for="option5">Aimbot 90%</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option6">
+                            <label for="option6">Head Trick</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option7">
+                            <label for="option7">Neural Aim</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="activeFeatures" class="active-features">
+                <h3>Recursos Ativados:</h3>
+                <p id="activeFeaturesList">Nenhum recurso ativado</p>
+            </div>
+            
+            <button class="btn" onclick="activateSelected()">Ativar Selecionados</button>
+            <button class="btn btn-secondary" onclick="logout()">Sair do Painel</button>
         </div>
-        
-        <div class="collapsible-tab">
-            <div class="collapsible-tab-header" onclick="toggleTab('tab2')">
-                <h3>Opções de Mira</h3>
-                <span id="tab2Indicator" class="tab-indicator">▼</span>
-            </div>
-            <div id="tab2Content" class="collapsible-tab-content">
-                <ul class="checkbox-list">
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option4">
-                        <label for="option4">Estabilizar Mira</label>
-                    </li>
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option5">
-                        <label for="option5">Aimbot 90%</label>
-                    </li>
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option6">
-                        <label for="option6">Head Trick</label>
-                    </li>
-                    <li class="checkbox-item">
-                        <input type="checkbox" id="option7">
-                        <label for="option7">Neural Aim</label>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div id="activeFeatures" class="active-features">
-            <h3>Recursos Ativados:</h3>
-            <p id="activeFeaturesList">Nenhum recurso ativado</p>
-        </div>
-        
-        <button class="btn" onclick="activateSelected()">Ativar Selecionados</button>
-        <button class="btn btn-secondary" onclick="logout()">Sair do Painel</button>
     </div>
 
     <script>
@@ -529,7 +557,44 @@
             "retina_detect": true
         });
 
-        // Função para alternar as abas (permite múltiplas abertas)
+        // Variáveis globais
+        let timerInterval;
+        let currentKey = '';
+
+        // Função para validar a key
+        function validarKey(key) {
+            try {
+                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
+                const agora = Date.now();
+                
+                const keyData = keys.find(k => k.key_value === key);
+                
+                if (!keyData) return false;
+                
+                return keyData.is_active && keyData.expiration > agora;
+            } catch (error) {
+                console.error("Erro ao validar key:", error);
+                return false;
+            }
+        }
+
+        // Função para obter tempo restante da key
+        function getTempoRestante(key) {
+            try {
+                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
+                const keyData = keys.find(k => k.key_value === key);
+                
+                if (!keyData) return 0;
+                
+                const agora = Date.now();
+                return Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
+            } catch (error) {
+                console.error("Erro ao obter tempo restante:", error);
+                return 0;
+            }
+        }
+
+        // Função para alternar as abas
         function toggleTab(tabId) {
             const content = document.getElementById(tabId + 'Content');
             const indicator = document.getElementById(tabId + 'Indicator');
@@ -581,14 +646,13 @@
             if (selectedCount > 0) {
                 updateActiveFeatures();
                 
-                // Efeito visual nos botões
+                // Efeito visual
                 const btn = document.querySelector('.btn');
                 btn.classList.add('feature-activated');
                 setTimeout(() => {
                     btn.classList.remove('feature-activated');
                 }, 500);
                 
-                // Efeito visual nos checkboxes ativados
                 checkboxes.forEach(checkbox => {
                     if (checkbox.checked) {
                         checkbox.parentElement.classList.add('feature-activated');
@@ -651,16 +715,20 @@
         // Função de logout
         function logout() {
             if (confirm('Tem certeza que deseja sair do painel?')) {
+                if (timerInterval) clearInterval(timerInterval);
                 window.location.href = 'index.html';
             }
         }
         
         // Função do cronômetro
         function startTimer(duration) {
+            if (timerInterval) clearInterval(timerInterval);
+            
             let timer = duration;
             const timerElement = document.getElementById('timeRemaining');
+            const statusElement = document.getElementById('connectionStatus');
             
-            const interval = setInterval(function() {
+            timerInterval = setInterval(function() {
                 const hours = Math.floor(timer / 3600);
                 const minutes = Math.floor((timer % 3600) / 60);
                 const seconds = timer % 60;
@@ -668,17 +736,69 @@
                 timerElement.textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
+                // Atualizar tempo restante no localStorage
+                const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
+                const keyIndex = keys.findIndex(k => k.key_value === currentKey);
+                
+                if (keyIndex !== -1) {
+                    keys[keyIndex].expiration = Date.now() + (timer * 1000);
+                    localStorage.setItem('accessKeys', JSON.stringify(keys));
+                }
+                
                 // Alerta visual quando restam 5 minutos
                 if (timer <= 300) {
                     timerElement.classList.add('timer-warning');
+                    statusElement.classList.remove('status-connected');
+                    statusElement.classList.add('status-error');
+                    statusElement.textContent = 'Expirando em breve';
                 }
                 
                 if (--timer < 0) {
-                    clearInterval(interval);
+                    clearInterval(timerInterval);
                     showNotification('Sua sessão expirou!', 'error');
-                    setTimeout(logout, 2000);
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
                 }
             }, 1000);
+        }
+        
+        // Função para verificar acesso
+        function verificarAcesso() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const key = urlParams.get('key');
+            
+            if (!key) {
+                showAccessDenied();
+                return;
+            }
+            
+            if (!validarKey(key)) {
+                showAccessDenied();
+                return;
+            }
+            
+            currentKey = key;
+            document.getElementById('userKey').textContent = key;
+            
+            const tempoRestante = getTempoRestante(key);
+            if (tempoRestante > 0) {
+                startTimer(tempoRestante);
+                
+                // Abrir as duas abas automaticamente ao carregar
+                setTimeout(() => {
+                    toggleTab('tab1');
+                    toggleTab('tab2');
+                }, 500);
+            } else {
+                showAccessDenied();
+            }
+        }
+        
+        // Função para mostrar acesso negado
+        function showAccessDenied() {
+            document.getElementById('panelContent').style.display = 'none';
+            document.getElementById('accessDenied').style.display = 'block';
         }
         
         // Inicialização
@@ -694,40 +814,14 @@
                 e.preventDefault();
             });
             
-            // Obter a key da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const key = urlParams.get('key');
-            
-            if (key) {
-                document.getElementById('userKey').textContent = key;
-                
-                // Verificar tempo restante da key
-                try {
-                    const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
-                    const keyData = keys.find(k => k.key_value === key);
-                    
-                    if (keyData) {
-                        const agora = Date.now();
-                        const tempoRestante = Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
-                        startTimer(tempoRestante);
-                    } else {
-                        // Fallback: 1 hora se não encontrar a key
-                        startTimer(60 * 60);
-                    }
-                } catch (error) {
-                    console.error("Erro ao carregar dados da key:", error);
-                    startTimer(60 * 60); // Fallback de 1 hora em caso de erro
-                }
-                
-                // Abrir as duas abas automaticamente ao carregar
-                setTimeout(() => {
-                    toggleTab('tab1');
-                    toggleTab('tab2');
-                }, 500);
-            } else {
-                // Se não houver key, redirecionar para login
-                window.location.href = 'index.html';
+            // Forçar modo tela cheia em dispositivos móveis
+            if (window.navigator.standalone) {
+                document.documentElement.style.height = '100%';
+                document.body.style.height = '100%';
             }
+            
+            // Verificar acesso
+            verificarAcesso();
             
             // Adicionar event listeners para os checkboxes
             document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -736,6 +830,11 @@
             
             // Inicializar estado dos recursos ativados
             updateActiveFeatures();
+        });
+
+        // Prevenir que a página seja acessada sem uma key válida
+        window.addEventListener('beforeunload', function() {
+            if (timerInterval) clearInterval(timerInterval);
         });
     </script>
 </body>
