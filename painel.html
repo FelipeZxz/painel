@@ -228,12 +228,35 @@
         .hidden {
             display: none;
         }
+        
+        .sync-status {
+            text-align: center;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .sync-status.success {
+            background: rgba(0, 200, 83, 0.2);
+            color: #00c853;
+            display: block;
+        }
+        
+        .sync-status.error {
+            background: rgba(255, 69, 58, 0.2);
+            color: #ff453a;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
 
     <div class="container">
+        <div id="syncStatus" class="sync-status"></div>
+        
         <div id="accessDenied" class="access-denied hidden">
             <h2>Acesso Negado</h2>
             <p>Sua sessão expirou ou a key é inválida.</p>
@@ -371,6 +394,7 @@
 
         // Sistema de armazenamento sincronizado (igual ao index.html)
         const MASTER_STORAGE_KEY = 'ff_master_keys';
+        const SYNC_STORAGE_KEY = 'ff_sync_keys';
 
         // Variáveis globais
         let timerInterval;
@@ -379,10 +403,37 @@
         // Obter todas as keys do sistema master
         function getAllKeys() {
             try {
-                return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+                // Primeiro tenta do localStorage
+                let keys = JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+                
+                // Se não houver keys no localStorage, tenta do sessionStorage
+                if (keys.length === 0) {
+                    try {
+                        keys = JSON.parse(sessionStorage.getItem(SYNC_STORAGE_KEY) || '[]');
+                        // Se encontrou no sessionStorage, salva no localStorage
+                        if (keys.length > 0) {
+                            localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
+                        }
+                    } catch (e) {
+                        console.log('Não foi possível ler do sessionStorage');
+                    }
+                }
+                
+                return keys;
             } catch (e) {
                 console.error('Erro ao ler keys:', e);
                 return [];
+            }
+        }
+
+        // Salvar todas as keys no sistema master
+        function saveAllKeys(keys) {
+            try {
+                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
+                // Também sincroniza com sessionStorage
+                sessionStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(keys));
+            } catch (e) {
+                console.error('Erro ao salvar keys:', e);
             }
         }
 
@@ -399,12 +450,7 @@
         function removeKeyFromMaster(keyValue) {
             const keys = getAllKeys();
             const updatedKeys = keys.filter(k => k.key_value !== keyValue);
-            
-            try {
-                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(updatedKeys));
-            } catch (e) {
-                console.error('Erro ao remover key:', e);
-            }
+            saveAllKeys(updatedKeys);
             
             return updatedKeys;
         }
@@ -421,6 +467,67 @@
             }
             
             return 0;
+        }
+
+        // Sincronizar com o index.html para garantir compatibilidade
+        function synchronizeWithIndex() {
+            try {
+                // Tenta acessar o localStorage do index.html via iframe
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = 'index.html';
+                
+                iframe.onload = function() {
+                    try {
+                        const indexKeys = JSON.parse(iframe.contentWindow.localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+                        const currentKeys = getAllKeys();
+                        
+                        // Se não houver keys atuais, usa as do index
+                        if (currentKeys.length === 0 && indexKeys.length > 0) {
+                            saveAllKeys(indexKeys);
+                            showSyncStatus('Keys sincronizadas com sucesso!', 'success');
+                            // Recarrega a verificação de acesso
+                            verificarAcesso();
+                        } else if (indexKeys.length > 0) {
+                            // Combinar as keys para garantir sincronia
+                            const combinedKeys = [...currentKeys];
+                            
+                            indexKeys.forEach(indexKey => {
+                                if (!combinedKeys.some(k => k.key_value === indexKey.key_value)) {
+                                    combinedKeys.push(indexKey);
+                                }
+                            });
+                            
+                            saveAllKeys(combinedKeys);
+                            showSyncStatus('Keys sincronizadas com sucesso!', 'success');
+                        }
+                    } catch (e) {
+                        console.log('Não foi possível sincronizar com o index');
+                        showSyncStatus('Erro na sincronização. Verifique a conexão.', 'error');
+                    }
+                };
+                
+                document.body.appendChild(iframe);
+                setTimeout(() => {
+                    if (document.body.contains(iframe)) {
+                        document.body.removeChild(iframe);
+                    }
+                }, 2000);
+            } catch (e) {
+                console.log('Sincronização com index não permitida');
+                showSyncStatus('Sincronização não disponível neste modo.', 'error');
+            }
+        }
+
+        // Mostrar status de sincronização
+        function showSyncStatus(message, type) {
+            const statusElement = document.getElementById('syncStatus');
+            statusElement.textContent = message;
+            statusElement.className = 'sync-status ' + type;
+            
+            setTimeout(() => {
+                statusElement.className = 'sync-status';
+            }, 3000);
         }
 
         // Função para alternar abas
@@ -558,7 +665,27 @@
                     showAccessDenied();
                 }
             } else {
-                showAccessDenied();
+                // Se não encontrou a key válida, tenta sincronizar com o index
+                synchronizeWithIndex();
+                
+                // Tenta novamente após sincronização
+                setTimeout(() => {
+                    if (key && isKeyValid(key)) {
+                        currentKey = key;
+                        document.getElementById('userKey').textContent = key;
+                        document.getElementById('statusText').textContent = 'Conectado';
+                        document.getElementById('statusText').className = 'status-connected';
+                        
+                        const tempoRestante = getTempoRestante(key);
+                        if (tempoRestante > 0) {
+                            startTimer(tempoRestante);
+                        } else {
+                            showAccessDenied();
+                        }
+                    } else {
+                        showAccessDenied();
+                    }
+                }, 1000);
             }
         }
         
@@ -576,9 +703,10 @@
             });
             
             // Forçar modo tela cheia em dispositivos móveis
-            if (window.navigator.standalone) {
+            if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
                 document.documentElement.style.height = '100%';
                 document.body.style.height = '100%';
+                document.getElementById('userKey').textContent = 'Modo Tela Inicial';
             }
             
             // Verificar acesso

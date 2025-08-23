@@ -220,6 +220,28 @@
             background: rgba(40, 40, 40, 0.6);
             border-radius: 10px;
         }
+        
+        .instructions {
+            background: rgba(40, 40, 40, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .instructions h3 {
+            color: #ff7e00;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -240,6 +262,16 @@
         <button class="btn" onclick="login()">Acessar Painel</button>
         
         <div id="status" class="status"></div>
+        
+        <div class="instructions">
+            <h3>Para usar na tela inicial:</h3>
+            <ol>
+                <li>Acesse este site no navegador</li>
+                <li>Adicione à tela inicial usando o menu do navegador</li>
+                <li>Abra o app pela tela inicial</li>
+                <li>Use a mesma key que você criou no navegador</li>
+            </ol>
+        </div>
         
         <div class="admin-link">
             <p><a href="#" onclick="showAdminLogin()">Acesso administrativo</a></p>
@@ -338,13 +370,80 @@
         // Sistema de armazenamento sincronizado
         const ADMIN_PASSWORD = "admin123";
         const MASTER_STORAGE_KEY = 'ff_master_keys';
+        const SYNC_STORAGE_KEY = 'ff_sync_keys';
 
         // Inicializar sistema de keys
         function initializeKeySystem() {
             if (!localStorage.getItem(MASTER_STORAGE_KEY)) {
                 localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify([]));
             }
+            
+            // Sincronizar com o sistema de URL
             syncKeysWithURL();
+            
+            // Sincronizar entre diferentes contextos (navegador vs tela inicial)
+            synchronizeKeysAcrossContexts();
+        }
+
+        // Sincronizar keys entre diferentes contextos (navegador vs tela inicial)
+        function synchronizeKeysAcrossContexts() {
+            // Verificar se estamos em modo standalone (tela inicial)
+            const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+            
+            if (isStandalone) {
+                // Estamos na tela inicial - tentar sincronizar com o navegador
+                try {
+                    // Tentar acessar o localStorage do navegador via iframe
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = window.location.href;
+                    
+                    iframe.onload = function() {
+                        try {
+                            const browserKeys = JSON.parse(iframe.contentWindow.localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+                            const currentKeys = getAllKeys();
+                            
+                            // Combinar as keys
+                            const combinedKeys = [...currentKeys];
+                            
+                            browserKeys.forEach(browserKey => {
+                                if (!combinedKeys.some(k => k.key_value === browserKey.key_value)) {
+                                    combinedKeys.push(browserKey);
+                                }
+                            });
+                            
+                            // Salvar as keys combinadas
+                            saveAllKeys(combinedKeys);
+                            
+                            // Atualizar a interface se estivermos no painel admin
+                            if (document.getElementById('adminPanelContainer') && 
+                                !document.getElementById('adminPanelContainer').classList.contains('hidden')) {
+                                loadAllKeys();
+                            }
+                        } catch (e) {
+                            console.log('Não foi possível sincronizar com o navegador');
+                        }
+                    };
+                    
+                    document.body.appendChild(iframe);
+                    setTimeout(() => document.body.removeChild(iframe), 1000);
+                } catch (e) {
+                    console.log('Sincronização com navegador não permitida');
+                }
+            }
+            
+            // Sincronizar com sessionStorage para melhor compatibilidade
+            syncWithSessionStorage();
+        }
+
+        // Sincronizar com sessionStorage para melhor compatibilidade entre contextos
+        function syncWithSessionStorage() {
+            const masterKeys = getAllKeys();
+            try {
+                sessionStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(masterKeys));
+            } catch (e) {
+                console.log('Não foi possível sincronizar com sessionStorage');
+            }
         }
 
         // Sincronizar keys com URL
@@ -374,7 +473,23 @@
         // Obter todas as keys do sistema master
         function getAllKeys() {
             try {
-                return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+                // Primeiro tenta do localStorage
+                let keys = JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
+                
+                // Se não houver keys no localStorage, tenta do sessionStorage
+                if (keys.length === 0) {
+                    try {
+                        keys = JSON.parse(sessionStorage.getItem(SYNC_STORAGE_KEY) || '[]');
+                        // Se encontrou no sessionStorage, salva no localStorage
+                        if (keys.length > 0) {
+                            localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
+                        }
+                    } catch (e) {
+                        console.log('Não foi possível ler do sessionStorage');
+                    }
+                }
+                
+                return keys;
             } catch (e) {
                 console.error('Erro ao ler keys:', e);
                 return [];
@@ -385,6 +500,8 @@
         function saveAllKeys(keys) {
             try {
                 localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
+                // Também sincroniza com sessionStorage
+                sessionStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(keys));
                 
                 // Sincronizar com URL
                 syncKeysWithURL();
