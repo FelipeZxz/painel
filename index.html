@@ -2,7 +2,16 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Free Fire Panel">
+    <meta name="theme-color" content="#ff7e00">
+    <meta name="msapplication-TileColor" content="#ff7e00">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Free Fire Panel">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSI0MCIgZmlsbD0iI0ZGN0UwMCIvPjxwYXRoIGQ9Ik05NiA1MUM4OC44MjIgNTEgODMgNTYuODIyIDgzIDY0VjEyOEM4MyAxMzUuMTc4IDg4LjgyMjAxNDEgOTYgMTQxQzEwMy4xNzggMTQxIDEwOSAxMzUuMTc4IDEwOSAxMjhWNjRDMTAgNTYuODIyIDEwMy4xNzggNTEgOTYgNTFaIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0xNDEgOTZDMTQxIDg4LjgyMiAxMzUuMTc4IDgzIDEyOCA4M0g2NEM1Ni44MjIgODMgNTEgODguODIyIDUxIDk2QzUxIDEwMy4xNzggNTYuODIyIDEwOSA2NCAxMDlIMTI4QzEzNS4xNzggMTA5IDE0MSAxMDMuMTc4IDE0MSA5NloiIGZpbGw9IndoaXRlIi8+PC9zdmc+">
     <title>Acesso ao Painel - Auxílio Free Fire</title>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
@@ -11,13 +20,21 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            color: #fff;
+            overflow: hidden;
         }
         
         body {
-            background: #0a0a0a;
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
+            position: fixed;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         #particles-js {
@@ -34,11 +51,11 @@
             z-index: 1;
             width: 100%;
             max-width: 500px;
-            margin: 30px auto;
+            margin: 0 auto;
+            padding: 20px;
             background: rgba(15, 15, 15, 0.85);
             backdrop-filter: blur(12px);
             border-radius: 20px;
-            padding: 30px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
                         0 0 0 1px rgba(255, 255, 255, 0.08),
                         0 0 40px rgba(255, 126, 0, 0.25);
@@ -239,15 +256,6 @@
             display: none;
         }
 
-        /* Estilos para o painel administrativo */
-        .btn-generate {
-            background: linear-gradient(135deg, #00c853, #00b34a);
-        }
-
-        .btn-clear {
-            background: linear-gradient(135deg, #ff453a, #d93c33);
-        }
-
         .keys-list {
             margin-top: 25px;
             animation: fadeInUp 0.8s ease-out forwards;
@@ -315,11 +323,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
-        /* Animações de partículas */
-        .particles-js-canvas-el {
-            position: fixed !important;
-        }
     </style>
 </head>
 <body>
@@ -373,8 +376,8 @@
         
         <div class="input-group">
             <h3>Gerenciar Keys</h3>
-            <button class="btn btn-generate" onclick="generateKey()">Gerar Nova Key</button>
-            <button class="btn btn-clear" onclick="clearAllKeys()">Limpar Todas as Keys</button>
+            <button class="btn" onclick="generateKey()">Gerar Nova Key</button>
+            <button class="btn btn-secondary" onclick="clearAllKeys()">Limpar Todas as Keys</button>
         </div>
         
         <div id="adminStatus" class="status"></div>
@@ -483,7 +486,7 @@
         }
 
         // Sistema de armazenamento de keys (localStorage)
-        const ADMIN_PASSWORD = "admin123"; // Senha padrão para acesso administrativo
+        const ADMIN_PASSWORD = "admin123";
         
         // Inicializar keys se não existirem
         if (!localStorage.getItem('accessKeys')) {
@@ -500,7 +503,6 @@
             element.textContent = message;
             element.className = 'status ' + type;
             
-            // Ocultar após 3 segundos
             setTimeout(() => {
                 element.className = 'status';
             }, 3000);
@@ -512,12 +514,10 @@
                 const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
                 const agora = Date.now();
                 
-                // Procurar a key informada
                 const keyData = keys.find(k => k.key_value === key);
                 
                 if (!keyData) return false;
                 
-                // Verificar se a key está ativa e não expirou
                 return keyData.is_active && keyData.expiration > agora;
             } catch (error) {
                 console.error("Erro ao validar key:", error);
@@ -536,10 +536,8 @@
 
             showStatus('Validando key...', 'success');
             
-            // Pequeno delay para visualização do status
             setTimeout(() => {
                 if (validarKey(key)) {
-                    // Redirecionar para o painel
                     window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
                 } else {
                     showStatus('Key inválida ou expirada!', 'error');
@@ -615,11 +613,9 @@
             try {
                 const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
                 
-                // Gerar nova key
                 const key = 'key-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                const expiration = Date.now() + (60 * 60 * 1000); // 1 hora
+                const expiration = Date.now() + (60 * 60 * 1000);
                 
-                // Adicionar nova key
                 keys.push({
                     key_value: key,
                     expiration: expiration,
@@ -627,15 +623,12 @@
                     is_active: true
                 });
                 
-                // Salvar no localStorage
                 localStorage.setItem('accessKeys', JSON.stringify(keys));
                 
                 showStatus('Key gerada com sucesso! Copiada para a área de transferência.', 'success', true);
                 
-                // Atualizar lista
                 loadKeys();
                 
-                // Copiar key para área de transferência
                 try {
                     navigator.clipboard.writeText(key);
                 } catch (err) {
@@ -656,7 +649,6 @@
             try {
                 const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
                 
-                // Encontrar e cancelar a key
                 const updatedKeys = keys.map(k => {
                     if (k.key_value === key) {
                         return { ...k, is_active: false, cancelled_at: new Date().toISOString() };
@@ -664,12 +656,10 @@
                     return k;
                 });
                 
-                // Salvar no localStorage
                 localStorage.setItem('accessKeys', JSON.stringify(updatedKeys));
                 
                 showStatus('Key cancelada com sucesso!', 'success', true);
                 
-                // Atualizar lista
                 loadKeys();
             } catch (error) {
                 console.error("Erro ao cancelar key:", error);
@@ -686,7 +676,6 @@
             try {
                 const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
                 
-                // Desativar todas as keys
                 const updatedKeys = keys.map(k => {
                     if (k.is_active && k.expiration > Date.now()) {
                         return { ...k, is_active: false, cancelled_at: new Date().toISOString() };
@@ -694,12 +683,10 @@
                     return k;
                 });
                 
-                // Salvar no localStorage
                 localStorage.setItem('accessKeys', JSON.stringify(updatedKeys));
                 
                 showStatus('Todas as keys foram canceladas!', 'success', true);
                 
-                // Atualizar lista
                 loadKeys();
             } catch (error) {
                 console.error("Erro ao limpar keys:", error);
@@ -722,6 +709,17 @@
                 if (e.key === 'Enter') {
                     adminLogin();
                 }
+            });
+            
+            // Prevenir zoom e comportamentos indesejados
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
             });
         });
     </script>
