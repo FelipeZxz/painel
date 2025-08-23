@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle - Auxílio Free Fire</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.08),
+                        0 0 40px rgba(255, 126, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: containerEntrance 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes containerEntrance {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff7e00, #ff0080, #ff7e00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 25px rgba(255, 126, 0, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            color: #ccc;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .user-info {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(45, 45, 45, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .user-info p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .key-value {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #ff7e00;
+            font-size: 17px;
+            text-shadow: 0 0 10px rgba(255, 126, 0, 0.3);
+        }
+        
+        .status-connected {
+            color: #00c853;
+            font-weight: bold;
+        }
+        
+        .collapsible-tab {
+            margin-bottom: 15px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(35, 35, 35, 0.6);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+        
+        .collapsible-tab:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+        
+        .collapsible-tab:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+        
+        .collapsible-tab-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, rgba(70, 70, 70, 0.7), rgba(50, 50, 50, 0.7));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .collapsible-tab-header:hover {
+            background: linear-gradient(135deg, rgba(85, 85, 85, 0.7), rgba(65, 65, 65, 0.7));
+            transform: translateX(5px);
+        }
+        
+        .collapsible-tab-header h3 {
+            font-size: 18px;
+            color: #ff7e00;
+            margin: 0;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .collapsible-tab-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .collapsible-tab-content.open {
+            max-height: 500px;
+        }
+        
+        .checkbox-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
+            background: rgba(30, 30, 30, 0.4);
+        }
+        
+        .checkbox-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checkbox-item:hover {
+            background: rgba(50, 50, 50, 0.5);
+            transform: translateX(8px);
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 22px;
+            height: 22px;
+            accent-color: #ff7e00;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        
+        .checkbox-item input[type="checkbox"]:checked {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 126, 0, 0.5);
+        }
+        
+        .checkbox-item label {
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            flex: 1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .checkbox-item input[type="checkbox"]:checked + label {
+            color: #ff7e00;
+            text-shadow: 0 0 10px rgba(255, 126, 0, 0.3);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff7e00, #ff0080);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(255, 126, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 1s forwards;
+            opacity: 0;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover:before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(255, 126, 0, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 15px rgba(255, 126, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+        }
+        
+        .active-features {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 15px;
+            border-left: 5px solid #00c853;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .active-features h3 {
+            color: #00c853;
+            margin-bottom: 12px;
+            font-size: 17px;
+        }
+        
+        .active-features p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #e2e8f0;
+        }
+        
+        .tab-indicator {
+            transition: transform 0.4s;
+            font-size: 16px;
+        }
+        
+        .rotate {
+            transform: rotate(180deg);
+        }
+        
+        .timer-warning {
+            animation: pulse 1s infinite alternate;
+            color: #ff453a !important;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.5; }
+        }
+        
+        .glow-text {
+            animation: textGlow 2s infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 126, 0, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 126, 0, 0.8), 0 0 30px rgba(255, 126, 0, 0.6);
+            }
+        }
+        
+        .feature-activated {
+            animation: featurePulse 0.5s ease;
+        }
+        
+        @keyframes featurePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="glow-text">PAINEL FREE FIRE</h1>
+            <p>Bem-vindo ao sistema de auxílio Free Fire</p>
+        </header>
+        
+        <div class="user-info">
+            <p>Key utilizada: <span class="key-value" id="userKey">Nenhuma</span></p>
+            <p>Status: <span class="status-connected">Conectado</span></p>
+            <p>Tempo restante: <span id="timeRemaining">01:00:00</span></p>
+        </div>
+        
+        <div class="collapsible-tab">
+            <div class="collapsible-tab-header" onclick="toggleTab('tab1')">
+                <h3>Opções de Gameplay</h3>
+                <span id="tab1Indicator" class="tab-indicator">▼</span>
+            </div>
+            <div id="tab1Content" class="collapsible-tab-content">
+                <ul class="checkbox-list">
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option1">
+                        <label for="option1">Auto Limpeza</label>
+                    </li>
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option2">
+                        <label for="option2">120 FPS</label>
+                    </li>
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option3">
+                        <label for="option3">Modo Turbo</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="collapsible-tab">
+            <div class="collapsible-tab-header" onclick="toggleTab('tab2')">
+                <h3>Opções de Mira</h3>
+                <span id="tab2Indicator" class="tab-indicator">▼</span>
+            </div>
+            <div id="tab2Content" class="collapsible-tab-content">
+                <ul class="checkbox-list">
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option4">
+                        <label for="option4">Estabilizar Mira</label>
+                    </li>
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option5">
+                        <label for="option5">Aimbot 90%</label>
+                    </li>
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option6">
+                        <label for="option6">Head Trick</label>
+                    </li>
+                    <li class="checkbox-item">
+                        <input type="checkbox" id="option7">
+                        <label for="option7">Neural Aim</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="activeFeatures" class="active-features">
+            <h3>Recursos Ativados:</h3>
+            <p id="activeFeaturesList">Nenhum recurso ativado</p>
+        </div>
+        
+        <button class="btn" onclick="activateSelected()">Ativar Selecionados</button>
+        <button class="btn btn-secondary" onclick="logout()">Sair do Painel</button>
+    </div>
+
+    <script>
+        // Configuração das partículas
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ff7e00"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 0.8,
+                        "opacity_min": 0.2,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.5,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 140,
+                    "color": "#ff7e00",
+                    "opacity": 0.3,
+                    "width": 1.2
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.8,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 800,
+                        "rotateY": 1600
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "repulse": {
+                        "distance": 120,
+                        "duration": 0.5
+                    },
+                    "push": {
+                        "particles_nb": 5
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Função para alternar as abas (permite múltiplas abertas)
+        function toggleTab(tabId) {
+            const content = document.getElementById(tabId + 'Content');
+            const indicator = document.getElementById(tabId + 'Indicator');
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                indicator.classList.remove('rotate');
+            } else {
+                content.classList.add('open');
+                indicator.classList.add('rotate');
+            }
+        }
+        
+        // Função para atualizar recursos ativados
+        function updateActiveFeatures() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let activeFeatures = [];
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    activeFeatures.push(checkbox.nextElementSibling.textContent);
+                }
+            });
+            
+            const activeFeaturesList = document.getElementById('activeFeaturesList');
+            const activeFeaturesContainer = document.getElementById('activeFeatures');
+            
+            if (activeFeatures.length > 0) {
+                activeFeaturesList.textContent = activeFeatures.join(', ');
+                activeFeaturesContainer.style.display = 'block';
+                setTimeout(() => {
+                    activeFeaturesContainer.style.opacity = '1';
+                }, 10);
+            } else {
+                activeFeaturesList.textContent = 'Nenhum recurso ativado';
+                activeFeaturesContainer.style.display = 'none';
+            }
+        }
+        
+        // Função para ativar selecionados
+        function activateSelected() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let selectedCount = 0;
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) selectedCount++;
+            });
+            
+            if (selectedCount > 0) {
+                updateActiveFeatures();
+                
+                // Efeito visual nos botões
+                const btn = document.querySelector('.btn');
+                btn.classList.add('feature-activated');
+                setTimeout(() => {
+                    btn.classList.remove('feature-activated');
+                }, 500);
+                
+                // Efeito visual nos checkboxes ativados
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        checkbox.parentElement.classList.add('feature-activated');
+                        setTimeout(() => {
+                            checkbox.parentElement.classList.remove('feature-activated');
+                        }, 500);
+                    }
+                });
+                
+                // Mensagem de sucesso
+                showNotification(selectedCount + ' recurso(s) ativado(s) com sucesso!', 'success');
+            } else {
+                showNotification('Selecione pelo menos uma opção!', 'error');
+            }
+        }
+        
+        // Função de notificação
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.padding = '12px 20px';
+            notification.style.borderRadius = '8px';
+            notification.style.zIndex = '1000';
+            notification.style.fontWeight = '500';
+            notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+            
+            if (type === 'success') {
+                notification.style.background = 'rgba(0, 200, 83, 0.9)';
+                notification.style.color = 'white';
+            } else {
+                notification.style.background = 'rgba(255, 69, 58, 0.9)';
+                notification.style.color = 'white';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Animação de entrada
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(-50%) translateY(-20px)';
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(-50%) translateY(0)';
+                notification.style.transition = 'all 0.3s ease';
+            }, 10);
+            
+            // Remover após 3 segundos
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(-50%) translateY(-20px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Função de logout
+        function logout() {
+            if (confirm('Tem certeza que deseja sair do painel?')) {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Função do cronômetro
+        function startTimer(duration) {
+            let timer = duration;
+            const timerElement = document.getElementById('timeRemaining');
+            
+            const interval = setInterval(function() {
+                const hours = Math.floor(timer / 3600);
+                const minutes = Math.floor((timer % 3600) / 60);
+                const seconds = timer % 60;
+                
+                timerElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Alerta visual quando restam 5 minutos
+                if (timer <= 300) {
+                    timerElement.classList.add('timer-warning');
+                }
+                
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    showNotification('Sua sessão expirou!', 'error');
+                    setTimeout(logout, 2000);
+                }
+            }, 1000);
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obter a key da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const key = urlParams.get('key');
+            
+            if (key) {
+                document.getElementById('userKey').textContent = key;
+                
+                // Verificar tempo restante da key
+                try {
+                    const keys = JSON.parse(localStorage.getItem('accessKeys') || '[]');
+                    const keyData = keys.find(k => k.key_value === key);
+                    
+                    if (keyData) {
+                        const agora = Date.now();
+                        const tempoRestante = Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
+                        startTimer(tempoRestante);
+                    } else {
+                        // Fallback: 1 hora se não encontrar a key
+                        startTimer(60 * 60);
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar dados da key:", error);
+                    startTimer(60 * 60); // Fallback de 1 hora em caso de erro
+                }
+                
+                // Abrir as duas abas automaticamente ao carregar
+                setTimeout(() => {
+                    toggleTab('tab1');
+                    toggleTab('tab2');
+                }, 500);
+            } else {
+                // Se não houver key, redirecionar para login
+                window.location.href = 'index.html';
+            }
+            
+            // Adicionar event listeners para os checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateActiveFeatures);
+            });
+            
+            // Inicializar estado dos recursos ativados
+            updateActiveFeatures();
+        });
+    </script>
+</body>
+</html>
