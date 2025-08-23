@@ -16,19 +16,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-        
         body {
             background: #0a0a0a;
+            min-height: 100vh;
             color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            overflow-x: hidden;
         }
         
         #particles-js {
@@ -45,6 +37,7 @@
             z-index: 1;
             width: 100%;
             max-width: 500px;
+            margin: 30px auto;
             background: rgba(15, 15, 15, 0.85);
             backdrop-filter: blur(10px);
             border-radius: 15px;
@@ -59,9 +52,9 @@
         }
         
         header h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 8px;
-            background: linear-gradient(90deg, #ff7e00, #ff0080);
+            background: linear-gradient(135deg, #ff7e00, #ff0080, #ff7e00);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -69,7 +62,15 @@
         
         header p {
             color: #aaa;
-            font-size: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
         }
         
         .input-group {
@@ -123,64 +124,150 @@
             background: rgba(255, 255, 255, 0.1);
         }
         
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
         .btn-danger {
             background: linear-gradient(135deg, #ff453a, #d93c33);
         }
         
-        .btn-danger:hover {
-            background: linear-gradient(135deg, #e63c30, #c1352b);
-        }
-        
         .status {
             text-align: center;
-            margin: 15px 0;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
+            margin-top: 15px;
             font-weight: 500;
             display: none;
         }
         
-        .status.success {
-            background: rgba(0, 200, 83, 0.2);
-            color: #00c853;
-            display: block;
+        .success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
         }
         
-        .status.error {
-            background: rgba(255, 69, 58, 0.2);
-            color: #ff453a;
-            display: block;
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
         
-        .admin-link {
+        .user-info {
             text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(45, 45, 45, 0.5);
+            border-radius: 10px;
+        }
+        
+        .key-value {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #ff7e00;
+        }
+        
+        .status-connected {
+            color: #00c853;
+            font-weight: bold;
+        }
+        
+        .collapsible-tab {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(35, 35, 35, 0.6);
+        }
+        
+        .collapsible-tab-header {
+            padding: 15px;
+            background: rgba(70, 70, 70, 0.7);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .collapsible-tab-header h3 {
+            font-size: 1.1rem;
+            color: #ff7e00;
+            margin: 0;
+        }
+        
+        .collapsible-tab-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible-tab-content.open {
+            max-height: 500px;
+        }
+        
+        .checkbox-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .checkbox-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            accent-color: #ff7e00;
+        }
+        
+        .checkbox-item label {
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .active-features {
             margin-top: 20px;
-            color: #94a3b8;
-        }
-        
-        .admin-link a {
-            color: #4facfe;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .admin-link a:hover {
-            color: #00f2fe;
-            text-decoration: underline;
-        }
-        
-        .hidden {
+            padding: 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 10px;
+            border-left: 4px solid #00c853;
             display: none;
         }
-
+        
+        .tab-indicator {
+            transition: transform 0.3s;
+        }
+        
+        .rotate {
+            transform: rotate(180deg);
+        }
+        
+        .timer-warning {
+            color: #ff453a !important;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .admin-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(40, 40, 40, 0.6);
+            border-radius: 10px;
+        }
+        
         .keys-list {
             margin-top: 20px;
         }
-
+        
         .key-item {
             display: flex;
             justify-content: space-between;
@@ -190,23 +277,16 @@
             border-radius: 8px;
             margin-bottom: 8px;
         }
-
+        
         .key-info {
             flex: 1;
         }
-
-        .key-value {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #ff7e00;
-            font-size: 0.9rem;
-        }
-
+        
         .key-expiry {
             font-size: 0.8rem;
             color: #94a3b8;
         }
-
+        
         .cancel-btn {
             background: #ff453a;
             color: white;
@@ -216,19 +296,12 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
-
+        
         .empty-state {
             text-align: center;
             color: #94a3b8;
             padding: 20px;
             font-style: italic;
-        }
-        
-        .admin-panel {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(40, 40, 40, 0.6);
-            border-radius: 10px;
         }
         
         .instructions {
@@ -243,406 +316,313 @@
         .instructions h3 {
             color: #ff7e00;
             margin-bottom: 10px;
+            font-size: 1rem;
         }
         
         .instructions ol {
             padding-left: 20px;
+            margin-bottom: 15px;
         }
         
         .instructions li {
             margin-bottom: 8px;
+            font-size: 0.9rem;
         }
         
-        .fullscreen-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 126, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-link a {
+            color: #4facfe;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        
+        .admin-link a:hover {
+            color: #00f2fe;
+            text-decoration: underline;
+        }
+        
+        .admin-login-page {
+            text-align: center;
+        }
+        
+        .admin-login-page h2 {
+            color: #ff7e00;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
 
-    <!-- Página de Login -->
-    <div id="loginContainer" class="container">
-        <header>
-            <h1>Acesso ao Painel</h1>
-            <p>Digite sua key de acesso para continuar</p>
-        </header>
-        
-        <div class="input-group">
-            <label for="keyInput">Key de Acesso</label>
-            <input type="text" id="keyInput" placeholder="Digite sua key aqui">
-        </div>
-        
-        <button class="btn" onclick="login()">Acessar Painel</button>
-        
-        <div id="status" class="status"></div>
-        
-        <div class="instructions">
-            <h3>Para usar na tela inicial:</h3>
-            <ol>
-                <li>Acesse este site no navegador</li>
-                <li>Adicione à tela inicial usando o menu do navegador</li>
-                <li>Abra o app pela tela inicial</li>
-                <li>Use a mesma key que você criou no navegador</li>
-            </ol>
-        </div>
-        
-        <div class="admin-link">
-            <p><a href="#" onclick="showAdminLogin()">Acesso administrativo</a></p>
-        </div>
-    </div>
-
-    <!-- Login Administrativo -->
-    <div id="adminLoginContainer" class="container hidden">
-        <header>
-            <h1>Acesso Administrativo</h1>
-            <p>Digite a senha de administrador</p>
-        </header>
-        
-        <div class="input-group">
-            <label for="adminPassword">Senha</label>
-            <input type="password" id="adminPassword" placeholder="Digite a senha">
-        </div>
-        
-        <button class="btn" onclick="adminLogin()">Acessar</button>
-        <button class="btn btn-secondary" onclick="backToLogin()">Voltar</button>
-        
-        <div id="adminStatus" class="status"></div>
-    </div>
-
-    <!-- Painel Administrativo -->
-    <div id="adminPanelContainer" class="container hidden">
-        <header>
-            <h1>Gerenciador de Keys</h1>
-            <p>Gerencie todas as keys de acesso</p>
-        </header>
-        
-        <div class="admin-panel">
-            <h3>Gerenciar Keys</h3>
-            <button class="btn" onclick="generateKey()">Gerar Nova Key</button>
-            <button class="btn btn-danger" onclick="clearAllKeys()">Limpar Todas as Keys</button>
-        </div>
-        
-        <div id="adminStatus" class="status"></div>
-        
-        <div class="keys-list">
-            <h3>Keys Ativas</h3>
-            <div id="keysContainer">
-                <div class="empty-state">Carregando keys...</div>
+    <div class="container">
+        <!-- Página de Login Principal -->
+        <div id="loginPage" class="page active">
+            <header>
+                <h1>Acesso ao Painel</h1>
+                <p>Digite sua key de acesso para continuar</p>
+            </header>
+            
+            <div class="input-group">
+                <label for="keyInput">Key de Acesso</label>
+                <input type="text" id="keyInput" placeholder="Digite sua key aqui">
+            </div>
+            
+            <button class="btn" onclick="login()">Acessar Painel</button>
+            
+            <div id="status" class="status"></div>
+            
+            <div class="instructions">
+                <h3>Para usar na tela inicial:</h3>
+                <ol>
+                    <li>Acesse este site no navegador</li>
+                    <li>Adicione à tela inicial usando o menu do navegador</li>
+                    <li>Abra o app pela tela inicial</li>
+                    <li>Use a mesma key que você criou no navegador</li>
+                </ol>
+            </div>
+            
+            <div class="admin-link">
+                <p>
+                    <a href="#" onclick="showAdminLoginPage()">
+                        Acesso administrativo
+                    </a>
+                </p>
             </div>
         </div>
-        
-        <div class="admin-link">
-            <p><a href="#" onclick="backToLogin()">Voltar para o login</a></p>
+
+        <!-- Página de Login Administrativo (Aba separada) -->
+        <div id="adminLoginPage" class="page">
+            <header>
+                <h1>Acesso Administrativo</h1>
+                <p></p>
+            </header>
+            
+            <div class="admin-login-page">
+                <h2></h2>
+                
+                <div class="input-group">
+                    <label for="adminPasswordInput"></label>
+                    <input type="password" id="adminPasswordInput" placeholder="Digite a senha administrativa">
+                </div>
+                
+                <button class="btn" onclick="adminLogin()">Entrar no Painel Admin</button>
+                <button class="btn btn-secondary" onclick="backToMainLogin()">← Voltar ao Login Principal</button>
+                
+                <div id="adminLoginStatus" class="status"></div>
+            </div>
+        </div>
+
+        <!-- Página do Painel Cliente -->
+        <div id="panelPage" class="page">
+            <header>
+                <h1>PAINEL FREE FIRE</h1>
+                <p>Bem-vindo ao sistema de auxílio Free Fire</p>
+            </header>
+            
+            <div class="user-info">
+                <p>Key utilizada: <span class="key-value" id="userKey">Carregando...</span></p>
+                <p>Status: <span class="status-connected" id="statusText">Conectado</span></p>
+                <p>Tempo restante: <span id="timeRemaining">01:00:00</span></p>
+            </div>
+            
+            <!-- ABA 1 -->
+            <div class="collapsible-tab">
+                <div class="collapsible-tab-header" onclick="toggleTab('tab1')">
+                    <h3>Opções de Gameplay</h3>
+                    <span id="tab1Indicator" class="tab-indicator">▼</span>
+                </div>
+                <div id="tab1Content" class="collapsible-tab-content">
+                    <ul class="checkbox-list">
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option1">
+                            <label for="option1">Sistema Avançado</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option2">
+                            <label for="option2">120 FPS</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option3">
+                            <label for="option3">No Recoil</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- ABA 2 -->
+            <div class="collapsible-tab">
+                <div class="collapsible-tab-header" onclick="toggleTab('tab2')">
+                    <h3>Opções de Mira</h3>
+                    <span id="tab2Indicator" class="tab-indicator">▼</span>
+                </div>
+                <div id="tab2Content" class="collapsible-tab-content">
+                    <ul class="checkbox-list">
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option4">
+                            <label for="option4">Aimbot 90%</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option5">
+                            <label for="option5">Head Trick</label>
+                        </li>
+                        <li class="checkbox-item">
+                            <input type="checkbox" id="option6">
+                            <label for="option6">Neural Aim</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Recursos ativados (inicialmente oculto) -->
+            <div id="activeFeatures" class="active-features">
+                <h3>Recursos Ativados:</h3>
+                <p id="activeFeaturesList">Nenhum recurso ativado</p>
+            </div>
+            
+            <button class="btn" onclick="activateSelected()">Ativar Selecionados</button>
+            <button class="btn btn-danger" onclick="logout()">Sair do Painel</button>
+        </div>
+
+        <!-- Página Admin (Gerenciamento) -->
+        <div id="adminPage" class="page">
+            <header>
+                <h1>Painel Administrativo</h1>
+                <p>Gerenciamento de Keys do Sistema</p>
+            </header>
+            
+            <div class="admin-panel">
+                <button class="btn" onclick="generateKey()">Gerar Nova Key (1h)</button>
+                <button class="btn" onclick="generateKey(24)">Gerar Key (24h)</button>
+                <button class="btn btn-danger" onclick="clearAllKeys()">Limpar Todas as Keys</button>
+            </div>
+            
+            <div id="adminStatus" class="status"></div>
+            
+            <div class="keys-list">
+                <h3>Keys Ativas</h3>
+                <div id="keysContainer">
+                    <div class="empty-state">Nenhuma key ativa</div>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="backToAdminLogin()">← Voltar</button>
         </div>
     </div>
-
-    <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶</button>
 
     <script>
         // Configuração das partículas
         particlesJS('particles-js', {
             "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "shape": {
-                    "type": "circle"
-                },
-                "opacity": {
-                    "value": 0.3,
-                    "random": true
-                },
-                "size": {
-                    "value": 3,
-                    "random": true
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.2,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 1.5,
-                    "direction": "none",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false
-                }
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ff7e00" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ff7e00", "opacity": 0.4, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false }
             }
         });
 
-        // Sistema de armazenamento sincronizado
+        // Sistema de armazenamento
         const ADMIN_PASSWORD = "admin123";
         const MASTER_STORAGE_KEY = 'ff_master_keys';
-        const SYNC_STORAGE_KEY = 'ff_sync_keys';
-        const CURRENT_KEY = 'ff_current_key';
+        const SESSION_KEY = 'ff_current_session';
 
-        // Inicializar sistema de keys
-        function initializeKeySystem() {
-            if (!localStorage.getItem(MASTER_STORAGE_KEY)) {
-                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify([]));
-            }
-            
-            // Sincronizar com o sistema de URL
-            syncKeysWithURL();
-            
-            // Sincronizar entre diferentes contextos (navegador vs tela inicial)
-            synchronizeKeysAcrossContexts();
-            
-            // Verificar se há uma key atual salva
-            const currentKey = localStorage.getItem(CURRENT_KEY);
-            if (currentKey && isKeyValid(currentKey)) {
-                document.getElementById('keyInput').value = currentKey;
-            }
+        let timerInterval;
+
+        // Função para mostrar página de login admin
+        function showAdminLoginPage() {
+            showPage('adminLoginPage');
         }
 
-        // Alternar tela cheia
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Error attempting to enable full-screen mode: ${err.message}`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
+        // Função para voltar ao login principal
+        function backToMainLogin() {
+            showPage('loginPage');
         }
 
-        // Sincronizar keys entre diferentes contextos (navegador vs tela inicial)
-        function synchronizeKeysAcrossContexts() {
-            // Verificar se estamos em modo standalone (tela inicial)
-            const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-            
-            if (isStandalone) {
-                // Estamos na tela inicial - tentar sincronizar com o navegador
-                try {
-                    // Tentar acessar o localStorage do navegador via iframe
-                    const iframe = document.createElement('iframe');
-                    iframe.style.display = 'none';
-                    iframe.src = window.location.href;
-                    
-                    iframe.onload = function() {
-                        try {
-                            const browserKeys = JSON.parse(iframe.contentWindow.localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
-                            const currentKeys = getAllKeys();
-                            
-                            // Combinar as keys
-                            const combinedKeys = [...currentKeys];
-                            
-                            browserKeys.forEach(browserKey => {
-                                if (!combinedKeys.some(k => k.key_value === browserKey.key_value)) {
-                                    combinedKeys.push(browserKey);
-                                }
-                            });
-                            
-                            // Salvar as keys combinadas
-                            saveAllKeys(combinedKeys);
-                            
-                            // Atualizar a interface se estivermos no painel admin
-                            if (document.getElementById('adminPanelContainer') && 
-                                !document.getElementById('adminPanelContainer').classList.contains('hidden')) {
-                                loadAllKeys();
-                            }
-                        } catch (e) {
-                            console.log('Não foi possível sincronizar com o navegador');
-                        }
-                    };
-                    
-                    document.body.appendChild(iframe);
-                    setTimeout(() => {
-                        if (document.body.contains(iframe)) {
-                            document.body.removeChild(iframe);
-                        }
-                    }, 1000);
-                } catch (e) {
-                    console.log('Sincronização com navegador não permitida');
-                }
-            }
-            
-            // Sincronizar com sessionStorage para melhor compatibilidade
-            syncWithSessionStorage();
+        // Função para voltar ao login admin
+        function backToAdminLogin() {
+            showPage('adminLoginPage');
         }
 
-        // Sincronizar com sessionStorage para melhor compatibilidade entre contextos
-        function syncWithSessionStorage() {
-            const masterKeys = getAllKeys();
-            try {
-                sessionStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(masterKeys));
-            } catch (e) {
-                console.log('Não foi possível sincronizar com sessionStorage');
-            }
+        // Funções de navegação
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
 
-        // Sincronizar keys com URL
-        function syncKeysWithURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlKey = urlParams.get('key');
-            const allKeys = getAllKeys();
-            
-            if (urlKey) {
-                // Verificar se a key da URL já existe no sistema
-                const keyExists = allKeys.some(k => k.key_value === urlKey && k.is_active);
-                
-                if (!keyExists) {
-                    // Adicionar key da URL ao sistema master
-                    addKeyToMaster(urlKey);
-                }
-                
-                // Salvar como key atual
-                localStorage.setItem(CURRENT_KEY, urlKey);
-                document.getElementById('keyInput').value = urlKey;
-            }
-            
-            // Remover da URL se não for válida
-            if (urlKey && !isKeyValid(urlKey)) {
-                const url = new URL(window.location);
-                url.searchParams.delete('key');
-                window.history.replaceState({}, '', url);
-            }
-        }
-
-        // Obter todas as keys do sistema master
+        // Sistema de Keys
         function getAllKeys() {
             try {
-                // Primeiro tenta do localStorage
-                let keys = JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
-                
-                // Se não houver keys no localStorage, tenta do sessionStorage
-                if (keys.length === 0) {
-                    try {
-                        keys = JSON.parse(sessionStorage.getItem(SYNC_STORAGE_KEY) || '[]');
-                        // Se encontrou no sessionStorage, salva no localStorage
-                        if (keys.length > 0) {
-                            localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
-                        }
-                    } catch (e) {
-                        console.log('Não foi possível ler do sessionStorage');
-                    }
-                }
-                
-                return keys;
+                return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
             } catch (e) {
-                console.error('Erro ao ler keys:', e);
                 return [];
             }
         }
 
-        // Salvar todas as keys no sistema master
         function saveAllKeys(keys) {
-            try {
-                localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
-                // Também sincroniza com sessionStorage
-                sessionStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(keys));
-                
-                // Sincronizar com URL
-                syncKeysWithURL();
-            } catch (e) {
-                console.error('Erro ao salvar keys:', e);
-            }
+            localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
         }
 
-        // Adicionar key ao sistema master
         function addKeyToMaster(keyValue, expirationHours = 1) {
             const keys = getAllKeys();
             const expiration = Date.now() + (expirationHours * 60 * 60 * 1000);
             
-            // Remover key existente se já houver
             const filteredKeys = keys.filter(k => k.key_value !== keyValue);
-            
             filteredKeys.push({
                 key_value: keyValue,
                 expiration: expiration,
                 created_at: new Date().toISOString(),
-                is_active: true
+                is_active: true,
+                hours: expirationHours
             });
             
             saveAllKeys(filteredKeys);
             return filteredKeys;
         }
 
-        // Remover key do sistema master
-        function removeKeyFromMaster(keyValue) {
-            const keys = getAllKeys();
-            const updatedKeys = keys.filter(k => k.key_value !== keyValue);
-            saveAllKeys(updatedKeys);
-            
-            // Remover também da URL se for a mesma key
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlKey = urlParams.get('key');
-            
-            if (urlKey === keyValue) {
-                const url = new URL(window.location);
-                url.searchParams.delete('key');
-                window.history.replaceState({}, '', url);
-            }
-            
-            // Remover key atual se for a mesma
-            if (localStorage.getItem(CURRENT_KEY) === keyValue) {
-                localStorage.removeItem(CURRENT_KEY);
-            }
-            
-            return updatedKeys;
-        }
-
-        // Verificar se key é válida
         function isKeyValid(keyValue) {
             const keys = getAllKeys();
             const agora = Date.now();
-            
             const keyData = keys.find(k => k.key_value === keyValue);
             return keyData && keyData.is_active && keyData.expiration > agora;
         }
 
-        // Obter keys válidas de todas as fontes (sincronizadas)
-        function getValidKeys() {
+        function getTempoRestante(keyValue) {
             const keys = getAllKeys();
             const agora = Date.now();
-            
-            return keys.filter(k => k.is_active && k.expiration > agora);
+            for (const keyData of keys) {
+                if (keyData.key_value === keyValue) {
+                    return Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
+                }
+            }
+            return 0;
         }
 
-        // Função para mostrar status
-        function showStatus(message, type, isAdmin = false) {
-            const element = isAdmin ? document.getElementById('adminStatus') : document.getElementById('status');
+        function removeKeyFromMaster(keyValue) {
+            const keys = getAllKeys();
+            const updatedKeys = keys.filter(k => k.key_value !== keyValue);
+            saveAllKeys(updatedKeys);
+            return updatedKeys;
+        }
+
+        // Funções de interface
+        function showStatus(message, type, elementId = 'status') {
+            const element = document.getElementById(elementId);
             element.textContent = message;
             element.className = 'status ' + type;
-            
-            setTimeout(() => {
-                element.className = 'status';
-            }, 3000);
+            setTimeout(() => { element.className = 'status'; }, 3000);
         }
 
-        // Função de login
         function login() {
             const key = document.getElementById('keyInput').value.trim();
-
             if (!key) {
                 showStatus('Por favor, insira sua key', 'error');
                 return;
@@ -652,61 +632,112 @@
             
             setTimeout(() => {
                 if (isKeyValid(key)) {
-                    // Salvar key atual
-                    localStorage.setItem(CURRENT_KEY, key);
-                    
-                    // Adicionar key à URL para sincronização
-                    const url = new URL(window.location);
-                    url.searchParams.set('key', key);
-                    window.history.replaceState({}, '', url);
-                    
-                    // Forçar tela cheia antes de redirecionar
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen().then(() => {
-                            window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
-                        }).catch(err => {
-                            window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
-                        });
-                    } else {
-                        window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
-                    }
+                    sessionStorage.setItem(SESSION_KEY, key);
+                    setupPanel(key);
                 } else {
                     showStatus('Key inválida ou expirada!', 'error');
                 }
             }, 1000);
         }
-        
-        // Mostrar login administrativo
-        function showAdminLogin() {
-            document.getElementById('loginContainer').classList.add('hidden');
-            document.getElementById('adminLoginContainer').classList.remove('hidden');
-        }
-        
-        // Voltar para o login
-        function backToLogin() {
-            document.getElementById('loginContainer').classList.remove('hidden');
-            document.getElementById('adminLoginContainer').classList.add('hidden');
-            document.getElementById('adminPanelContainer').classList.add('hidden');
-            document.getElementById('keyInput').value = '';
-            document.getElementById('adminPassword').value = '';
-        }
-        
-        // Login administrativo
-        function adminLogin() {
-            const password = document.getElementById('adminPassword').value;
+
+        function setupPanel(key) {
+            document.getElementById('userKey').textContent = key;
             
-            if (password === ADMIN_PASSWORD) {
-                document.getElementById('adminLoginContainer').classList.add('hidden');
-                document.getElementById('adminPanelContainer').classList.remove('hidden');
-                loadAllKeys();
+            const tempoRestante = getTempoRestante(key);
+            if (tempoRestante > 0) {
+                startTimer(tempoRestante);
+                showPage('panelPage');
             } else {
-                showStatus('Senha incorreta!', 'error', true);
+                showStatus('Key expirada!', 'error');
+                removeKeyFromMaster(key);
             }
         }
-        
-        // Carregar todas as keys
+
+        function startTimer(duration) {
+            let timer = duration;
+            const timerElement = document.getElementById('timeRemaining');
+            
+            const updateTimer = function() {
+                const hours = Math.floor(timer / 3600);
+                const minutes = Math.floor((timer % 3600) / 60);
+                const seconds = timer % 60;
+                
+                timerElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timer <= 300) timerElement.classList.add('timer-warning');
+                
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    logout();
+                }
+            };
+
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function toggleTab(tabId) {
+            const content = document.getElementById(tabId + 'Content');
+            const indicator = document.getElementById(tabId + 'Indicator');
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                indicator.classList.remove('rotate');
+            } else {
+                content.classList.add('open');
+                indicator.classList.add('rotate');
+            }
+        }
+
+        function activateSelected() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const selectedCount = checkboxes.length;
+            
+            if (selectedCount > 0) {
+                const activeFeatures = [];
+                checkboxes.forEach(checkbox => {
+                    activeFeatures.push(checkbox.nextElementSibling.textContent);
+                });
+                
+                document.getElementById('activeFeaturesList').textContent = activeFeatures.join(', ');
+                document.getElementById('activeFeatures').style.display = 'block';
+                showStatus(selectedCount + ' recurso(s) ativado(s)!', 'success');
+            } else {
+                showStatus('Selecione pelo menos uma opção!', 'error');
+            }
+        }
+
+        function logout() {
+            if (timerInterval) clearInterval(timerInterval);
+            sessionStorage.removeItem(SESSION_KEY);
+            showPage('loginPage');
+            document.getElementById('keyInput').value = '';
+            document.getElementById('activeFeatures').style.display = 'none';
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('adminPasswordInput').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                loadAllKeys();
+                showPage('adminPage');
+                document.getElementById('adminPasswordInput').value = '';
+                showStatus('Login realizado com sucesso!', 'success', 'adminStatus');
+            } else {
+                showStatus('Senha incorreta!', 'error', 'adminLoginStatus');
+            }
+        }
+
+        function generateKey(hours = 1) {
+            const key = 'FF-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            addKeyToMaster(key, hours);
+            showStatus(`Key ${hours}h gerada: ${key}`, 'success', 'adminStatus');
+            loadAllKeys();
+        }
+
         function loadAllKeys() {
-            const keys = getValidKeys();
+            const keys = getAllKeys().filter(k => k.is_active && k.expiration > Date.now());
             const keysContainer = document.getElementById('keysContainer');
             
             if (keys.length === 0) {
@@ -715,126 +746,55 @@
             }
             
             keysContainer.innerHTML = '';
-            
             keys.forEach((keyData) => {
+                const tempoRestante = Math.max(0, Math.floor((keyData.expiration - Date.now()) / 1000));
+                const horas = Math.floor(tempoRestante / 3600);
+                const minutos = Math.floor((tempoRestante % 3600) / 60);
+                
                 const keyElement = document.createElement('div');
                 keyElement.className = 'key-item';
                 keyElement.innerHTML = `
                     <div class="key-info">
                         <div class="key-value">${keyData.key_value}</div>
-                        <div class="key-expiry">
-                            Expira: ${new Date(keyData.expiration).toLocaleString('pt-BR')}
-                            <br><small>Criada: ${new Date(keyData.created_at).toLocaleString('pt-BR')}</small>
-                        </div>
+                        <div class="key-expiry">${horas}h ${minutos}m restantes</div>
                     </div>
-                    <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">Cancelar</button>
+                    <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">X</button>
                 `;
-                
                 keysContainer.appendChild(keyElement);
             });
         }
-        
-        // Cancelar uma key específica
+
         function cancelKey(key) {
-            if (!confirm(`Tem certeza que deseja cancelar a key:\n${key}?`)) {
-                return;
-            }
-            
-            removeKeyFromMaster(key);
-            showStatus('Key cancelada com sucesso!', 'success', true);
-            loadAllKeys();
-        }
-        
-        // Gerar uma nova key
-        function generateKey() {
-            const key = 'key-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            
-            addKeyToMaster(key);
-            
-            // Também adicionar à URL para sincronização imediata
-            const url = new URL(window.location);
-            url.searchParams.set('key', key);
-            window.history.replaceState({}, '', url);
-            
-            showStatus('Key gerada com sucesso! Copiada para a área de transferência.', 'success', true);
-            
-            loadAllKeys();
-            
-            try {
-                navigator.clipboard.writeText(key);
-            } catch (err) {
-                console.log('Não foi possível copiar para a área de transferência');
+            if (confirm(`Cancelar a key: ${key}?`)) {
+                removeKeyFromMaster(key);
+                showStatus('Key cancelada!', 'success', 'adminStatus');
+                loadAllKeys();
             }
         }
-        
-        // Limpar todas as keys
+
         function clearAllKeys() {
-            if (!confirm('Tem certeza que deseja cancelar TODAS as keys?')) {
-                return;
+            if (confirm('Cancelar TODAS as keys?')) {
+                saveAllKeys([]);
+                showStatus('Todas as keys canceladas!', 'success', 'adminStatus');
+                loadAllKeys();
             }
-            
-            saveAllKeys([]);
-            
-            // Limpar também a URL
-            const url = new URL(window.location);
-            url.searchParams.delete('key');
-            window.history.replaceState({}, '', url);
-            
-            // Limpar key atual
-            localStorage.removeItem(CURRENT_KEY);
-            
-            showStatus('Todas as keys foram canceladas!', 'success', true);
-            loadAllKeys();
         }
-        
-        // Inicializar a aplicação
+
+        // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            initializeKeySystem();
+            showPage('loginPage');
             
-            // Verificar se há key na URL e preencher automaticamente
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlKey = urlParams.get('key');
-            if (urlKey) {
-                document.getElementById('keyInput').value = urlKey;
-                
-                // Se a key da URL for válida, redirecionar automaticamente
-                if (isKeyValid(urlKey)) {
-                    showStatus('Key válida detectada. Redirecionando...', 'success');
-                    setTimeout(() => {
-                        login();
-                    }, 1500);
-                }
-            }
-            
-            // Tentar entrar em tela cheia automaticamente
-            setTimeout(() => {
-                if (!document.fullscreenElement) {
-                    toggleFullScreen();
-                }
-            }, 500);
-            
-            // Tecla Enter para submeter
-            document.getElementById('keyInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    login();
-                }
+            document.getElementById('keyInput').addEventListener('keypress', e => {
+                if (e.key === 'Enter') login();
             });
             
-            document.getElementById('adminPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    adminLogin();
-                }
+            document.getElementById('adminPasswordInput').addEventListener('keypress', e => {
+                if (e.key === 'Enter') adminLogin();
             });
         });
 
-        // Event listener para mudanças no modo de tela cheia
-        document.addEventListener('fullscreenchange', function() {
-            const fullscreenBtn = document.querySelector('.fullscreen-btn');
-            if (document.fullscreenElement) {
-                fullscreenBtn.textContent = '⛶';
-            } else {
-                fullscreenBtn.textContent = '⛶';
-            }
+        window.addEventListener('beforeunload', () => {
+            sessionStorage.removeItem(SESSION_KEY);
         });
     </script>
 </body>
