@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ff7e00">
     <title>Acesso ao Painel - Auxílio Free Fire</title>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
@@ -13,11 +16,19 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
         body {
             background: #0a0a0a;
-            min-height: 100vh;
             color: #fff;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
         
         #particles-js {
@@ -34,7 +45,6 @@
             z-index: 1;
             width: 100%;
             max-width: 500px;
-            margin: 30px auto;
             background: rgba(15, 15, 15, 0.85);
             backdrop-filter: blur(10px);
             border-radius: 15px;
@@ -242,6 +252,24 @@
         .instructions li {
             margin-bottom: 8px;
         }
+        
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 126, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -323,6 +351,8 @@
         </div>
     </div>
 
+    <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶</button>
+
     <script>
         // Configuração das partículas
         particlesJS('particles-js', {
@@ -371,6 +401,7 @@
         const ADMIN_PASSWORD = "admin123";
         const MASTER_STORAGE_KEY = 'ff_master_keys';
         const SYNC_STORAGE_KEY = 'ff_sync_keys';
+        const CURRENT_KEY = 'ff_current_key';
 
         // Inicializar sistema de keys
         function initializeKeySystem() {
@@ -383,6 +414,25 @@
             
             // Sincronizar entre diferentes contextos (navegador vs tela inicial)
             synchronizeKeysAcrossContexts();
+            
+            // Verificar se há uma key atual salva
+            const currentKey = localStorage.getItem(CURRENT_KEY);
+            if (currentKey && isKeyValid(currentKey)) {
+                document.getElementById('keyInput').value = currentKey;
+            }
+        }
+
+        // Alternar tela cheia
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
         }
 
         // Sincronizar keys entre diferentes contextos (navegador vs tela inicial)
@@ -426,7 +476,11 @@
                     };
                     
                     document.body.appendChild(iframe);
-                    setTimeout(() => document.body.removeChild(iframe), 1000);
+                    setTimeout(() => {
+                        if (document.body.contains(iframe)) {
+                            document.body.removeChild(iframe);
+                        }
+                    }, 1000);
                 } catch (e) {
                     console.log('Sincronização com navegador não permitida');
                 }
@@ -460,6 +514,10 @@
                     // Adicionar key da URL ao sistema master
                     addKeyToMaster(urlKey);
                 }
+                
+                // Salvar como key atual
+                localStorage.setItem(CURRENT_KEY, urlKey);
+                document.getElementById('keyInput').value = urlKey;
             }
             
             // Remover da URL se não for válida
@@ -545,6 +603,11 @@
                 window.history.replaceState({}, '', url);
             }
             
+            // Remover key atual se for a mesma
+            if (localStorage.getItem(CURRENT_KEY) === keyValue) {
+                localStorage.removeItem(CURRENT_KEY);
+            }
+            
             return updatedKeys;
         }
 
@@ -589,12 +652,24 @@
             
             setTimeout(() => {
                 if (isKeyValid(key)) {
+                    // Salvar key atual
+                    localStorage.setItem(CURRENT_KEY, key);
+                    
                     // Adicionar key à URL para sincronização
                     const url = new URL(window.location);
                     url.searchParams.set('key', key);
                     window.history.replaceState({}, '', url);
                     
-                    window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
+                    // Forçar tela cheia antes de redirecionar
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().then(() => {
+                            window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
+                        }).catch(err => {
+                            window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
+                        });
+                    } else {
+                        window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
+                    }
                 } else {
                     showStatus('Key inválida ou expirada!', 'error');
                 }
@@ -705,6 +780,9 @@
             url.searchParams.delete('key');
             window.history.replaceState({}, '', url);
             
+            // Limpar key atual
+            localStorage.removeItem(CURRENT_KEY);
+            
             showStatus('Todas as keys foram canceladas!', 'success', true);
             loadAllKeys();
         }
@@ -721,11 +799,19 @@
                 
                 // Se a key da URL for válida, redirecionar automaticamente
                 if (isKeyValid(urlKey)) {
+                    showStatus('Key válida detectada. Redirecionando...', 'success');
                     setTimeout(() => {
-                        window.location.href = `painel.html?key=${encodeURIComponent(urlKey)}`;
-                    }, 1000);
+                        login();
+                    }, 1500);
                 }
             }
+            
+            // Tentar entrar em tela cheia automaticamente
+            setTimeout(() => {
+                if (!document.fullscreenElement) {
+                    toggleFullScreen();
+                }
+            }, 500);
             
             // Tecla Enter para submeter
             document.getElementById('keyInput').addEventListener('keypress', function(e) {
@@ -739,6 +825,16 @@
                     adminLogin();
                 }
             });
+        });
+
+        // Event listener para mudanças no modo de tela cheia
+        document.addEventListener('fullscreenchange', function() {
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+            if (document.fullscreenElement) {
+                fullscreenBtn.textContent = '⛶';
+            } else {
+                fullscreenBtn.textContent = '⛶';
+            }
         });
     </script>
 </body>
