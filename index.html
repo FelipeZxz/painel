@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -325,6 +326,84 @@
         }
     </style>
 </head>
+<script>
+    // Função de login modificada para transição suave
+    function login() {
+        const key = document.getElementById('keyInput').value.trim();
+
+        if (!key) {
+            showStatus('Por favor, insira sua key', 'error');
+            return;
+        }
+
+        showStatus('Validando key...', 'success');
+        
+        // Pequeno delay para visualização do status
+        setTimeout(() => {
+            if (validarKey(key)) {
+                // Transição suave para o painel
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    window.location.href = `painel.html?key=${encodeURIComponent(key)}`;
+                }, 500);
+            } else {
+                showStatus('Key inválida ou expirada!', 'error');
+            }
+        }, 1000);
+    }
+
+    // Forçar modo tela cheia quando a página carregar
+    function activateFullscreen() {
+        // Para iOS Safari
+        if (window.navigator.standalone) {
+            document.documentElement.style.height = '100%';
+            document.body.style.height = '100%';
+        }
+        
+        // Esconder barra de endereço em dispositivos móveis (técnica universal)
+        window.scrollTo(0, 1);
+        
+        // Prevenir comportamentos indesejados
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+    }
+
+    // Chamar a função quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar partículas primeiro
+        initParticles();
+        
+        // Ativar modo tela cheia após um pequeno delay
+        setTimeout(activateFullscreen, 100);
+        
+        // Configurar evento de tecla Enter
+        document.getElementById('keyInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                adminLogin();
+            }
+        });
+    });
+
+    // Também ativar fullscreen quando a orientação mudar
+    window.addEventListener('orientationchange', function() {
+        setTimeout(activateFullscreen, 300);
+    });
+</script>
 <body>
     <div id="particles-js"></div>
 

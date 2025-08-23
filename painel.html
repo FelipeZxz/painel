@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -386,6 +387,78 @@
         }
     </style>
 </head>
+<script>
+    // Função para ativar modo tela cheia
+    function activateFullscreen() {
+        // Para iOS Safari (modo standalone)
+        if (window.navigator.standalone) {
+            document.documentElement.style.height = '100%';
+            document.body.style.height = '100%';
+        }
+        
+        // Esconder barra de endereço em dispositivos móveis
+        window.scrollTo(0, 1);
+        
+        // Prevenir zoom e comportamentos indesejados
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+    }
+
+    // Função de logout com transição suave
+    function logout() {
+        if (confirm('Tem certeza que deseja sair do painel?')) {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Transição suave de volta para o login
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configurar partículas
+        particlesJS('particles-js', {
+            // Sua configuração de partículas aqui
+        });
+
+        // Ativar modo tela cheia
+        setTimeout(activateFullscreen, 100);
+        
+        // Verificar acesso
+        verificarAcesso();
+        
+        // Adicionar event listeners
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateActiveFeatures);
+        });
+        
+        // Inicializar estado dos recursos ativados
+        updateActiveFeatures();
+    });
+
+    // Reforçar fullscreen em eventos de redimensionamento
+    window.addEventListener('resize', activateFullscreen);
+    window.addEventListener('orientationchange', function() {
+        setTimeout(activateFullscreen, 300);
+    });
+
+    // Prevenir que a página seja acessada sem uma key válida
+    window.addEventListener('beforeunload', function() {
+        if (timerInterval) clearInterval(timerInterval);
+    });
+</script>
 <body>
     <div id="particles-js"></div>
 
