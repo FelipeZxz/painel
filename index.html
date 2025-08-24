@@ -68,11 +68,19 @@
             padding: 25px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.2s;
         }
         
         header {
             text-align: center;
             margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.4s;
         }
         
         header h1 {
@@ -91,15 +99,26 @@
         
         .page {
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
         
         .page.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .input-group {
             margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
         }
+        
+        .input-group:nth-child(1) { animation-delay: 0.5s; }
+        .input-group:nth-child(2) { animation-delay: 0.6s; }
         
         .input-group label {
             display: block;
@@ -137,7 +156,13 @@
             cursor: pointer;
             transition: all 0.3s;
             margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
         }
+        
+        .btn:nth-child(1) { animation-delay: 0.7s; }
+        .btn:nth-child(2) { animation-delay: 0.8s; }
         
         .btn:hover {
             transform: translateY(-2px);
@@ -159,18 +184,26 @@
             margin-top: 15px;
             font-weight: 500;
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .status.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: shake 0.5s ease;
         }
         
         .success {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
-            display: block;
         }
         
         .error {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
-            display: block;
         }
         
         .user-info {
@@ -179,6 +212,10 @@
             padding: 15px;
             background: rgba(45, 45, 45, 0.5);
             border-radius: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.3s;
         }
         
         .key-value {
@@ -197,7 +234,13 @@
             border-radius: 10px;
             overflow: hidden;
             background: rgba(35, 35, 35, 0.6);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
         }
+        
+        .collapsible-tab:nth-child(1) { animation-delay: 0.4s; }
+        .collapsible-tab:nth-child(2) { animation-delay: 0.5s; }
         
         .collapsible-tab-header {
             padding: 15px;
@@ -206,6 +249,11 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .collapsible-tab-header:hover {
+            background: rgba(90, 90, 90, 0.7);
         }
         
         .collapsible-tab-header h3 {
@@ -218,11 +266,13 @@
             padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.5s ease, opacity 0.4s ease;
+            opacity: 0;
         }
         
         .collapsible-tab-content.open {
             max-height: 500px;
+            opacity: 1;
         }
         
         .checkbox-list {
@@ -236,6 +286,11 @@
             align-items: center;
             padding: 12px 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s ease;
+        }
+        
+        .checkbox-item:hover {
+            background: rgba(50, 50, 50, 0.5);
         }
         
         .checkbox-item:last-child {
@@ -247,12 +302,24 @@
             width: 20px;
             height: 20px;
             accent-color: #ff7e00;
+            transform: scale(1);
+            transition: transform 0.2s ease;
+        }
+        
+        .checkbox-item input[type="checkbox"]:checked {
+            transform: scale(1.1);
+            animation: pulseCheck 0.3s ease;
         }
         
         .checkbox-item label {
             color: #e2e8f0;
             cursor: pointer;
             font-size: 1rem;
+            transition: color 0.2s ease;
+        }
+        
+        .checkbox-item input[type="checkbox"]:checked + label {
+            color: #ff7e00;
         }
         
         .active-features {
@@ -262,10 +329,20 @@
             border-radius: 10px;
             border-left: 4px solid #00c853;
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .active-features.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: bounceIn 0.6s ease;
         }
         
         .tab-indicator {
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
         }
         
         .rotate {
@@ -288,10 +365,18 @@
             padding: 15px;
             background: rgba(40, 40, 40, 0.6);
             border-radius: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.3s;
         }
         
         .keys-list {
             margin-top: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.4s;
         }
         
         .key-item {
@@ -302,6 +387,12 @@
             background: rgba(40, 40, 40, 0.7);
             border-radius: 8px;
             margin-bottom: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .key-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         
         .key-info {
@@ -321,6 +412,12 @@
             padding: 5px 10px;
             cursor: pointer;
             font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        
+        .cancel-btn:hover {
+            background: #ff2a1d;
+            transform: scale(1.05);
         }
         
         .empty-state {
@@ -337,6 +434,10 @@
             margin-top: 20px;
             font-size: 0.9rem;
             color: #aaa;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.8s;
         }
         
         .instructions h3 {
@@ -360,6 +461,10 @@
             margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 0.9s;
         }
         
         .admin-link a {
@@ -390,6 +495,87 @@
             background: rgba(255, 126, 0, 0.2);
             border-radius: 8px;
             font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: 1s;
+        }
+        
+        /* Novas animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes pulseCheck {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.1); }
+        }
+        
+        .fade-out {
+            animation: fadeOutDown 0.4s ease forwards !important;
+        }
+        
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s ease infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -576,26 +762,46 @@
         const SESSION_KEY = 'ff_current_session';
 
         let timerInterval;
+        let currentPage = 'loginPage';
 
         // Função para mostrar página de login admin
         function showAdminLoginPage() {
-            showPage('adminLoginPage');
+            animatePageChange('adminLoginPage');
         }
 
         // Função para voltar ao login principal
         function backToMainLogin() {
-            showPage('loginPage');
+            animatePageChange('loginPage');
         }
 
         // Função para voltar ao login admin
         function backToAdminLogin() {
-            showPage('adminLoginPage');
+            animatePageChange('adminLoginPage');
         }
 
-        // Funções de navegação
+        // Funções de navegação com animação
+        function animatePageChange(pageId) {
+            const currentPageElement = document.getElementById(currentPage);
+            const nextPageElement = document.getElementById(pageId);
+            
+            // Adiciona classe de fade out à página atual
+            currentPageElement.classList.add('fade-out');
+            
+            // Após a animação de saída, troca as páginas
+            setTimeout(() => {
+                currentPageElement.classList.remove('active', 'fade-out');
+                nextPageElement.classList.add('active');
+                currentPage = pageId;
+                
+                // Scroll para o topo
+                window.scrollTo(0, 0);
+            }, 400);
+        }
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
+            currentPage = pageId;
         }
 
         // Sistema de Keys
@@ -679,16 +885,24 @@
             const element = document.getElementById(elementId);
             element.textContent = message;
             element.className = 'status ' + type;
-            element.style.display = 'block';
+            
+            // Mostra com animação
+            setTimeout(() => {
+                element.classList.add('show');
+            }, 10);
             
             setTimeout(() => { 
-                element.className = 'status'; 
-                element.style.display = 'none';
+                element.classList.remove('show');
+                setTimeout(() => {
+                    element.className = 'status';
+                }, 300);
             }, 3000);
         }
 
         function login() {
             const key = document.getElementById('keyInput').value.trim();
+            const loginBtn = document.querySelector('#loginPage .btn');
+            
             console.log('Tentando login com key:', key);
             
             if (!key) {
@@ -696,6 +910,9 @@
                 return;
             }
 
+            // Animação de loading no botão
+            loginBtn.classList.add('btn-loading');
+            
             showStatus('Validando key...', 'success');
             
             // Pequeno delay para mostrar a mensagem
@@ -703,11 +920,20 @@
                 if (isKeyValid(key)) {
                     sessionStorage.setItem(SESSION_KEY, key);
                     showStatus('Login bem-sucedido!', 'success');
-                    setupPanel(key);
+                    
+                    // Remove animação de loading
+                    loginBtn.classList.remove('btn-loading');
+                    
+                    // Animação de transição para o painel
+                    setTimeout(() => {
+                        animatePageChange('panelPage');
+                        setupPanel(key);
+                    }, 1000);
                 } else {
                     showStatus('Key inválida ou expirada!', 'error');
+                    loginBtn.classList.remove('btn-loading');
                 }
-            }, 1000);
+            }, 1500);
         }
 
         function setupPanel(key) {
@@ -718,10 +944,12 @@
             
             if (tempoRestante > 0) {
                 startTimer(tempoRestante);
-                showPage('panelPage');
             } else {
                 showStatus('Key expirada!', 'error');
                 removeKeyFromMaster(key);
+                setTimeout(() => {
+                    animatePageChange('loginPage');
+                }, 2000);
             }
         }
 
@@ -771,16 +999,26 @@
         function activateSelected() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
             const selectedCount = checkboxes.length;
+            const activateBtn = document.querySelector('#panelPage .btn');
             
             if (selectedCount > 0) {
-                const activeFeatures = [];
-                checkboxes.forEach(checkbox => {
-                    activeFeatures.push(checkbox.nextElementSibling.textContent);
-                });
+                // Animação de loading no botão
+                activateBtn.classList.add('btn-loading');
                 
-                document.getElementById('activeFeaturesList').textContent = activeFeatures.join(', ');
-                document.getElementById('activeFeatures').style.display = 'block';
-                showStatus(selectedCount + ' recurso(s) ativado(s)!', 'success');
+                setTimeout(() => {
+                    const activeFeatures = [];
+                    checkboxes.forEach(checkbox => {
+                        activeFeatures.push(checkbox.nextElementSibling.textContent);
+                    });
+                    
+                    document.getElementById('activeFeaturesList').textContent = activeFeatures.join(', ');
+                    document.getElementById('activeFeatures').classList.add('show');
+                    
+                    // Remove animação de loading
+                    activateBtn.classList.remove('btn-loading');
+                    
+                    showStatus(selectedCount + ' recurso(s) ativado(s)!', 'success');
+                }, 800);
             } else {
                 showStatus('Selecione pelo menos uma opção!', 'error');
             }
@@ -789,22 +1027,33 @@
         function logout() {
             if (timerInterval) clearInterval(timerInterval);
             sessionStorage.removeItem(SESSION_KEY);
-            showPage('loginPage');
+            animatePageChange('loginPage');
             document.getElementById('keyInput').value = '';
-            document.getElementById('activeFeatures').style.display = 'none';
+            document.getElementById('activeFeatures').classList.remove('show');
         }
 
         function adminLogin() {
             const password = document.getElementById('adminPasswordInput').value;
+            const loginBtn = document.querySelector('#adminLoginPage .btn');
             
-            if (password === ADMIN_PASSWORD) {
-                loadAllKeys();
-                showPage('adminPage');
-                document.getElementById('adminPasswordInput').value = '';
-                showStatus('Login realizado com sucesso!', 'success', 'adminStatus');
-            } else {
-                showStatus('Senha incorreta!', 'error', 'adminLoginStatus');
-            }
+            // Animação de loading no botão
+            loginBtn.classList.add('btn-loading');
+            
+            setTimeout(() => {
+                if (password === ADMIN_PASSWORD) {
+                    loadAllKeys();
+                    
+                    // Remove animação de loading
+                    loginBtn.classList.remove('btn-loading');
+                    
+                    animatePageChange('adminPage');
+                    document.getElementById('adminPasswordInput').value = '';
+                    showStatus('Login realizado com sucesso!', 'success', 'adminStatus');
+                } else {
+                    showStatus('Senha incorreta!', 'error', 'adminLoginStatus');
+                    loginBtn.classList.remove('btn-loading');
+                }
+            }, 800);
         }
 
         function generateKey(hours = 1) {
@@ -824,80 +1073,65 @@
             }
             
             keysContainer.innerHTML = '';
-            keys.forEach((keyData) => {
-                const tempoRestante = Math.max(0, Math.floor((keyData.expiration - Date.now()) / 1000));
-                const horas = Math.floor(tempoRestante / 3600);
-                const minutos = Math.floor((tempoRestante % 3600) / 60);
+            keys.forEach(keyData => {
+                const expirationDate = new Date(keyData.expiration);
+                const formattedDate = expirationDate.toLocaleString('pt-BR');
                 
                 const keyElement = document.createElement('div');
                 keyElement.className = 'key-item';
                 keyElement.innerHTML = `
                     <div class="key-info">
-                        <div class="key-value">${keyData.key_value}</div>
-                        <div class="key-expiry">${horas}h ${minutos}m restantes</div>
+                        <div>${keyData.key_value}</div>
+                        <div class="key-expiry">Expira: ${formattedDate}</div>
                     </div>
-                    <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">X</button>
+                    <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">Cancelar</button>
                 `;
+                
                 keysContainer.appendChild(keyElement);
             });
         }
 
-        function cancelKey(key) {
-            if (confirm(`Cancelar a key: ${key}?`)) {
-                removeKeyFromMaster(key);
-                showStatus('Key cancelada!', 'success', 'adminStatus');
+        function cancelKey(keyValue) {
+            const keys = getAllKeys();
+            const updatedKeys = keys.map(k => {
+                if (k.key_value === keyValue) {
+                    k.is_active = false;
+                }
+                return k;
+            });
+            
+            saveAllKeys(updatedKeys);
+            showStatus(`Key ${keyValue} cancelada!`, 'success', 'adminStatus');
+            loadAllKeys();
+        }
+
+        function clearAllKeys() {
+            if (confirm('Tem certeza que deseja remover TODAS as keys?')) {
+                saveAllKeys([]);
+                showStatus('Todas as keys foram removidas!', 'success', 'adminStatus');
                 loadAllKeys();
             }
         }
 
-        function clearAllKeys() {
-            if (confirm('Cancelar TODAS as keys?')) {
-                saveAllKeys([]);
-                showStatus('Todas as keys canceladas!', 'success', 'adminStatus');
-                loadAllKeys();
-            }
+        // Verificar se está no Safari
+        function isSafari() {
+            return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
         }
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            showPage('loginPage');
-            
-            // Verificar se já está logado
-            const currentKey = sessionStorage.getItem(SESSION_KEY);
-            if (currentKey && isKeyValid(currentKey)) {
-                setupPanel(currentKey);
+            // Verifica se está no Safari
+            if (!isSafari()) {
+                document.getElementById('safariWarning').style.display = 'none';
             }
             
-            document.getElementById('keyInput').addEventListener('keypress', e => {
-                if (e.key === 'Enter') login();
-            });
-            
-            document.getElementById('adminPasswordInput').addEventListener('keypress', e => {
-                if (e.key === 'Enter') adminLogin();
-            });
-            
-            // Debug: Log todas as keys no console
-            console.log('Keys no localStorage:', getAllKeys());
-            
-            // Verifica se está em modo standalone (adicionado à tela inicial)
-            if (window.navigator.standalone) {
-                document.body.classList.add('standalone-mode');
-                console.log('Modo standalone ativado - sem barra do Safari');
+            // Verifica se já está logado
+            const sessionKey = sessionStorage.getItem(SESSION_KEY);
+            if (sessionKey && isKeyValid(sessionKey)) {
+                showPage('panelPage');
+                setupPanel(sessionKey);
             }
         });
-
-        window.addEventListener('beforeunload', () => {
-            if (timerInterval) clearInterval(timerInterval);
-        });
-        
-        // Script para iOS - força modo tela cheia
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    window.scrollTo(0, 1);
-                }, 100);
-            });
-        }
     </script>
 </body>
 </html>
