@@ -13,27 +13,8 @@
 
     <link rel="icon" href="icone.png" type="image/png">
     <link rel="apple-touch-icon" href="icone.png">
-    <link rel="manifest" href="data:application/json,{
-      &quot;name&quot;: &quot;Painel Free Fire&quot;,
-      &quot;short_name&quot;: &quot;FreeFire&quot;,
-      &quot;icons&quot;: [
-        {
-          &quot;src&quot;: &quot;icone.png&quot;,
-          &quot;sizes&quot;: &quot;192x192&quot;,
-          &quot;type&quot;: &quot;image/png&quot;
-        },
-        {
-          &quot;src&quot;: &quot;icone.png&quot;,
-          &quot;sizes&quot;: &quot;512x512&quot;, 
-          &quot;type&quot;: &quot;image/png&quot;
-        }
-      ],
-      &quot;theme_color&quot;: &quot;#ff7e00&quot;,
-      &quot;background_color&quot;: &quot;#0a0a0a&quot;,
-      &quot;display&quot;: &quot;standalone&quot;,
-      &quot;start_url&quot;: &quot;/&quot;
-    }">
-
+    <link rel="apple-touch-startup-image" href="icone.png">
+    
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         * {
@@ -41,6 +22,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -48,6 +30,21 @@
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Esconde a barra de endereço quando em modo PWA */
+        @media all and (display-mode: standalone) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                height: 100vh;
+                overflow: hidden;
+            }
+            
+            .safari-only {
+                display: none !important;
+            }
         }
         
         #particles-js {
@@ -385,6 +382,15 @@
             color: #ff7e00;
             margin-bottom: 20px;
         }
+        
+        .safari-only {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 126, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -410,11 +416,16 @@
             <div class="instructions">
                 <h3>Para usar na tela inicial:</h3>
                 <ol>
-                    <li>Acesse este site no navegador</li>
-                    <li>Adicione à tela inicial usando o menu do navegador</li>
-                    <li>Abra o app pela tela inicial</li>
-                    <li>Use a mesma key que você criou no navegador</li>
+                    <li>Acesse este site no navegador Safari</li>
+                    <li>Toque no ícone de compartilhar (caixa com flecha)</li>
+                    <li>Role para baixo e toque em "Adicionar à Tela Inicial"</li>
+                    <li>Toque em "Adicionar" no canto superior direito</li>
+                    <li>Abra o app pela tela inicial (não pelo Safari)</li>
                 </ol>
+            </div>
+            
+            <div class="safari-only" id="safariWarning">
+                💡 Dica: Adicione este site à tela inicial para uma experiência sem barras!
             </div>
             
             <div class="admin-link">
@@ -430,15 +441,15 @@
         <div id="adminLoginPage" class="page">
             <header>
                 <h1>Acesso Administrativo</h1>
-                <p></p>
+                <p>Digite a senha de administrador</p>
             </header>
             
             <div class="admin-login-page">
-                <h2></h2>
+                <h2>Login Administrativo</h2>
                 
                 <div class="input-group">
-                    <label for="adminPasswordInput"></label>
-                    <input type="password" id="adminPasswordInput" placeholder="Digite a senha">
+                    <label for="adminPasswordInput">Senha Administrativa</label>
+                    <input type="password" id="adminPasswordInput" placeholder="Digite a senha administrativa">
                 </div>
                 
                 <button class="btn" onclick="adminLogin()">Entrar no Painel Admin</button>
@@ -867,11 +878,26 @@
             
             // Debug: Log todas as keys no console
             console.log('Keys no localStorage:', getAllKeys());
+            
+            // Verifica se está em modo standalone (adicionado à tela inicial)
+            if (window.navigator.standalone) {
+                document.body.classList.add('standalone-mode');
+                console.log('Modo standalone ativado - sem barra do Safari');
+            }
         });
 
         window.addEventListener('beforeunload', () => {
             if (timerInterval) clearInterval(timerInterval);
         });
+        
+        // Script para iOS - força modo tela cheia
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    window.scrollTo(0, 1);
+                }, 100);
+            });
+        }
     </script>
 </body>
 </html>
