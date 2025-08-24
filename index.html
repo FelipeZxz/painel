@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Painel Free Fire">
@@ -136,12 +136,25 @@
             color: white;
             font-size: 1rem;
             transition: all 0.3s;
+            letter-spacing: 2px;
+            font-family: monospace;
         }
         
         .input-group input:focus {
             outline: none;
             border-color: #ff7e00;
             box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.3);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
         
         .btn {
@@ -360,73 +373,6 @@
             100% { opacity: 1; }
         }
         
-        .admin-panel {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(40, 40, 40, 0.6);
-            border-radius: 10px;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 0.5s ease forwards;
-            animation-delay: 0.3s;
-        }
-        
-        .keys-list {
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 0.5s ease forwards;
-            animation-delay: 0.4s;
-        }
-        
-        .key-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: rgba(40, 40, 40, 0.7);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .key-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .key-info {
-            flex: 1;
-        }
-        
-        .key-expiry {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-        
-        .cancel-btn {
-            background: #ff453a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s ease;
-        }
-        
-        .cancel-btn:hover {
-            background: #ff2a1d;
-            transform: scale(1.05);
-        }
-        
-        .empty-state {
-            text-align: center;
-            color: #94a3b8;
-            padding: 20px;
-            font-style: italic;
-        }
-        
         .instructions {
             background: rgba(40, 40, 40, 0.6);
             padding: 15px;
@@ -454,38 +400,6 @@
         .instructions li {
             margin-bottom: 8px;
             font-size: 0.9rem;
-        }
-        
-        .admin-link {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 0.5s ease forwards;
-            animation-delay: 0.9s;
-        }
-        
-        .admin-link a {
-            color: #4facfe;
-            text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
-        
-        .admin-link a:hover {
-            color: #00f2fe;
-            text-decoration: underline;
-        }
-        
-        .admin-login-page {
-            text-align: center;
-        }
-        
-        .admin-login-page h2 {
-            color: #ff7e00;
-            margin-bottom: 20px;
         }
         
         .safari-only {
@@ -587,12 +501,13 @@
         <div id="loginPage" class="page active">
             <header>
                 <h1>Acesso ao Painel</h1>
-                <p>Digite sua key de acesso para continuar</p>
+                <p>Digite a key de acesso para continuar</p>
             </header>
             
-            <div class="input-group">
+            <div class="input-group" style="position: relative;">
                 <label for="keyInput">Key de Acesso</label>
-                <input type="text" id="keyInput" placeholder="Digite sua key aqui">
+                <input type="password" id="keyInput" placeholder="Digite a key aqui" autocomplete="off">
+                <button type="button" class="password-toggle" onclick="togglePasswordVisibility()"></button>
             </div>
             
             <button class="btn" onclick="login()">Acessar Painel</button>
@@ -613,36 +528,6 @@
             <div class="safari-only" id="safariWarning">
                 💡 Dica: Adicione este site à tela inicial para uma experiência sem barras!
             </div>
-            
-            <div class="admin-link">
-                <p>
-                    <a href="#" onclick="showAdminLoginPage()">
-                        Acesso administrativo
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Página de Login Administrativo (Aba separada) -->
-        <div id="adminLoginPage" class="page">
-            <header>
-                <h1>Acesso Administrativo</h1>
-                <p>Digite a senha de administrador</p>
-            </header>
-            
-            <div class="admin-login-page">
-                <h2>Login Administrativo</h2>
-                
-                <div class="input-group">
-                    <label for="adminPasswordInput">Senha Administrativa</label>
-                    <input type="password" id="adminPasswordInput" placeholder="Digite a senha administrativa">
-                </div>
-                
-                <button class="btn" onclick="adminLogin()">Entrar no Painel Admin</button>
-                <button class="btn btn-secondary" onclick="backToMainLogin()">← Voltar ao Login Principal</button>
-                
-                <div id="adminLoginStatus" class="status"></div>
-            </div>
         </div>
 
         <!-- Página do Painel Cliente -->
@@ -653,9 +538,9 @@
             </header>
             
             <div class="user-info">
-                <p>Key utilizada: <span class="key-value" id="userKey">Carregando...</span></p>
+                <p>Key utilizada: <span class="key-value" id="userKey">key-zzz-01</span></p>
                 <p>Status: <span class="status-connected" id="statusText">Conectado</span></p>
-                <p>Tempo restante: <span id="timeRemaining">01:00:00</span></p>
+                <p>Tempo restante: <span id="timeRemaining">Ilimitado</span></p>
             </div>
             
             <!-- ABA 1 -->
@@ -715,31 +600,6 @@
             <button class="btn" onclick="activateSelected()">Ativar Selecionados</button>
             <button class="btn btn-danger" onclick="logout()">Sair do Painel</button>
         </div>
-
-        <!-- Página Admin (Gerenciamento) -->
-        <div id="adminPage" class="page">
-            <header>
-                <h1>Painel Administrativo</h1>
-                <p>Gerenciamento de Keys do Sistema</p>
-            </header>
-            
-            <div class="admin-panel">
-                <button class="btn" onclick="generateKey()">Gerar Nova Key (1h)</button>
-                <button class="btn" onclick="generateKey(24)">Gerar Key (24h)</button>
-                <button class="btn btn-danger" onclick="clearAllKeys()">Limpar Todas as Keys</button>
-            </div>
-            
-            <div id="adminStatus" class="status"></div>
-            
-            <div class="keys-list">
-                <h3>Keys Ativas</h3>
-                <div id="keysContainer">
-                    <div class="empty-state">Nenhuma key ativa</div>
-                </div>
-            </div>
-
-            <button class="btn btn-secondary" onclick="backToAdminLogin()">← Voltar</button>
-        </div>
     </div>
 
     <script>
@@ -756,27 +616,32 @@
             }
         });
 
-        // Sistema de armazenamento
-        const ADMIN_PASSWORD = "admin123";
-        const MASTER_STORAGE_KEY = 'ff_master_keys';
         const SESSION_KEY = 'ff_current_session';
+        const VALID_KEY = "key-zzz-01";
 
         let timerInterval;
         let currentPage = 'loginPage';
 
-        // Função para mostrar página de login admin
-        function showAdminLoginPage() {
-            animatePageChange('adminLoginPage');
+        // Função para mascarar a key (mostra apenas os últimos 4 caracteres)
+        function maskKey(key) {
+            if (key.length <= 4) return key;
+            const maskedPart = '*'.repeat(key.length - 4);
+            const visiblePart = key.slice(-4);
+            return maskedPart + visiblePart;
         }
 
-        // Função para voltar ao login principal
-        function backToMainLogin() {
-            animatePageChange('loginPage');
-        }
-
-        // Função para voltar ao login admin
-        function backToAdminLogin() {
-            animatePageChange('adminLoginPage');
+        // Função para alternar a visibilidade da senha
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('keyInput');
+            const toggleButton = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '';
+            }
         }
 
         // Funções de navegação com animação
@@ -804,80 +669,8 @@
             currentPage = pageId;
         }
 
-        // Sistema de Keys
-        function getAllKeys() {
-            try {
-                return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
-            } catch (e) {
-                console.error('Erro ao carregar keys:', e);
-                return [];
-            }
-        }
-
-        function saveAllKeys(keys) {
-            localStorage.setItem(MASTER_STORAGE_KEY, JSON.stringify(keys));
-        }
-
-        function addKeyToMaster(keyValue, expirationHours = 1) {
-            const keys = getAllKeys();
-            const expiration = Date.now() + (expirationHours * 60 * 60 * 1000);
-            
-            // Remove key existente se houver
-            const filteredKeys = keys.filter(k => k.key_value !== keyValue);
-            
-            // Adiciona nova key
-            filteredKeys.push({
-                key_value: keyValue,
-                expiration: expiration,
-                created_at: new Date().toISOString(),
-                is_active: true,
-                hours: expirationHours
-            });
-            
-            saveAllKeys(filteredKeys);
-            return filteredKeys;
-        }
-
         function isKeyValid(keyValue) {
-            const keys = getAllKeys();
-            const agora = Date.now();
-            const keyData = keys.find(k => k.key_value === keyValue);
-            
-            if (!keyData) {
-                console.log('Key não encontrada:', keyValue);
-                return false;
-            }
-            
-            if (!keyData.is_active) {
-                console.log('Key inativa:', keyValue);
-                return false;
-            }
-            
-            if (keyData.expiration <= agora) {
-                console.log('Key expirada:', keyValue);
-                return false;
-            }
-            
-            console.log('Key válida:', keyValue);
-            return true;
-        }
-
-        function getTempoRestante(keyValue) {
-            const keys = getAllKeys();
-            const agora = Date.now();
-            for (const keyData of keys) {
-                if (keyData.key_value === keyValue) {
-                    return Math.max(0, Math.floor((keyData.expiration - agora) / 1000));
-                }
-            }
-            return 0;
-        }
-
-        function removeKeyFromMaster(keyValue) {
-            const keys = getAllKeys();
-            const updatedKeys = keys.filter(k => k.key_value !== keyValue);
-            saveAllKeys(updatedKeys);
-            return updatedKeys;
+            return keyValue === VALID_KEY;
         }
 
         // Funções de interface
@@ -906,7 +699,7 @@
             console.log('Tentando login com key:', key);
             
             if (!key) {
-                showStatus('Por favor, insira sua key', 'error');
+                showStatus('Por favor, insira a key', 'error');
                 return;
             }
 
@@ -930,57 +723,17 @@
                         setupPanel(key);
                     }, 1000);
                 } else {
-                    showStatus('Key inválida ou expirada!', 'error');
+                    showStatus('Key inválida!', 'error');
                     loginBtn.classList.remove('btn-loading');
                 }
             }, 1500);
         }
 
         function setupPanel(key) {
-            document.getElementById('userKey').textContent = key;
-            
-            const tempoRestante = getTempoRestante(key);
-            console.log('Tempo restante:', tempoRestante);
-            
-            if (tempoRestante > 0) {
-                startTimer(tempoRestante);
-            } else {
-                showStatus('Key expirada!', 'error');
-                removeKeyFromMaster(key);
-                setTimeout(() => {
-                    animatePageChange('loginPage');
-                }, 2000);
-            }
-        }
-
-        function startTimer(duration) {
-            let timer = duration;
-            const timerElement = document.getElementById('timeRemaining');
-            
-            const updateTimer = function() {
-                const hours = Math.floor(timer / 3600);
-                const minutes = Math.floor((timer % 3600) / 60);
-                const seconds = timer % 60;
-                
-                timerElement.textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timer <= 300) {
-                    timerElement.classList.add('timer-warning');
-                } else {
-                    timerElement.classList.remove('timer-warning');
-                }
-                
-                if (--timer < 0) {
-                    clearInterval(timerInterval);
-                    logout();
-                    showStatus('Sua key expirou!', 'error');
-                }
-            };
-
-            updateTimer();
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(updateTimer, 1000);
+            // Mostra a key mascarada no painel
+            document.getElementById('userKey').textContent = maskKey(key);
+            // Tempo ilimitado para a key fixa
+            document.getElementById('timeRemaining').textContent = "Ilimitado";
         }
 
         function toggleTab(tabId) {
@@ -1030,87 +783,10 @@
             animatePageChange('loginPage');
             document.getElementById('keyInput').value = '';
             document.getElementById('activeFeatures').classList.remove('show');
-        }
-
-        function adminLogin() {
-            const password = document.getElementById('adminPasswordInput').value;
-            const loginBtn = document.querySelector('#adminLoginPage .btn');
             
-            // Animação de loading no botão
-            loginBtn.classList.add('btn-loading');
-            
-            setTimeout(() => {
-                if (password === ADMIN_PASSWORD) {
-                    loadAllKeys();
-                    
-                    // Remove animação de loading
-                    loginBtn.classList.remove('btn-loading');
-                    
-                    animatePageChange('adminPage');
-                    document.getElementById('adminPasswordInput').value = '';
-                    showStatus('Login realizado com sucesso!', 'success', 'adminStatus');
-                } else {
-                    showStatus('Senha incorreta!', 'error', 'adminLoginStatus');
-                    loginBtn.classList.remove('btn-loading');
-                }
-            }, 800);
-        }
-
-        function generateKey(hours = 1) {
-            const key = 'FF-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-            addKeyToMaster(key, hours);
-            showStatus(`Key ${hours}h gerada: ${key}`, 'success', 'adminStatus');
-            loadAllKeys();
-        }
-
-        function loadAllKeys() {
-            const keys = getAllKeys().filter(k => k.is_active && k.expiration > Date.now());
-            const keysContainer = document.getElementById('keysContainer');
-            
-            if (keys.length === 0) {
-                keysContainer.innerHTML = '<div class="empty-state">Nenhuma key ativa</div>';
-                return;
-            }
-            
-            keysContainer.innerHTML = '';
-            keys.forEach(keyData => {
-                const expirationDate = new Date(keyData.expiration);
-                const formattedDate = expirationDate.toLocaleString('pt-BR');
-                
-                const keyElement = document.createElement('div');
-                keyElement.className = 'key-item';
-                keyElement.innerHTML = `
-                    <div class="key-info">
-                        <div>${keyData.key_value}</div>
-                        <div class="key-expiry">Expira: ${formattedDate}</div>
-                    </div>
-                    <button class="cancel-btn" onclick="cancelKey('${keyData.key_value}')">Cancelar</button>
-                `;
-                
-                keysContainer.appendChild(keyElement);
-            });
-        }
-
-        function cancelKey(keyValue) {
-            const keys = getAllKeys();
-            const updatedKeys = keys.map(k => {
-                if (k.key_value === keyValue) {
-                    k.is_active = false;
-                }
-                return k;
-            });
-            
-            saveAllKeys(updatedKeys);
-            showStatus(`Key ${keyValue} cancelada!`, 'success', 'adminStatus');
-            loadAllKeys();
-        }
-
-        function clearAllKeys() {
-            if (confirm('Tem certeza que deseja remover TODAS as keys?')) {
-                saveAllKeys([]);
-                showStatus('Todas as keys foram removidas!', 'success', 'adminStatus');
-                loadAllKeys();
-            }
+            // Reset do campo de senha para modo padrão
+            document.getElementById('keyInput').type = 'password';
+            document.querySelector('.password-toggle').textContent = '';
         }
 
         // Verificar se está no Safari
@@ -1131,6 +807,13 @@
                 showPage('panelPage');
                 setupPanel(sessionKey);
             }
+            
+            // Adiciona evento para submeter com Enter
+            document.getElementById('keyInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
         });
     </script>
 </body>
