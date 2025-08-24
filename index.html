@@ -11,24 +11,24 @@
     <link rel="icon" href="icone.png" type="image/png">
     <link rel="apple-touch-icon" href="icone.png">
     <link rel="manifest" href="data:application/json,{
-      \"name\": \"Painel Free Fire\",
-      \"short_name\": \"FreeFire\",
-      \"icons\": [
+      &quot;name&quot;: &quot;Painel Free Fire&quot;,
+      &quot;short_name&quot;: &quot;FreeFire&quot;,
+      &quot;icons&quot;: [
         {
-          \"src\": \"icone.png\",
-          \"sizes\": \"192x192\",
-          \"type\": \"image/png\"
+          &quot;src&quot;: &quot;icone.png&quot;,
+          &quot;sizes&quot;: &quot;192x192&quot;,
+          &quot;type&quot;: &quot;image/png&quot;
         },
         {
-          \"src\": \"icone.png\",
-          \"sizes\": \"512x512\", 
-          \"type\": \"image/png\"
+          &quot;src&quot;: &quot;icone.png&quot;,
+          &quot;sizes&quot;: &quot;512x512&quot;, 
+          &quot;type&quot;: &quot;image/png&quot;
         }
       ],
-      \"theme_color\": \"#ff7e00\",
-      \"background_color\": \"#0a0a0a\",
-      \"display\": \"standalone\",
-      \"start_url\": \"/\"
+      &quot;theme_color&quot;: &quot;#ff7e00&quot;,
+      &quot;background_color&quot;: &quot;#0a0a0a&quot;,
+      &quot;display&quot;: &quot;standalone&quot;,
+      &quot;start_url&quot;: &quot;/&quot;
     }">
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -164,11 +164,13 @@
         .success {
             background: rgba(16, 185, 129, 0.2);
             color: #10b981;
+            display: block;
         }
         
         .error {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
+            display: block;
         }
         
         .user-info {
@@ -433,7 +435,7 @@
                 
                 <div class="input-group">
                     <label for="adminPasswordInput"></label>
-                    <input type="password" id="adminPasswordInput" placeholder="Digite a senha administrativa">
+                    <input type="password" id="adminPasswordInput" placeholder="Digite a senha">
                 </div>
                 
                 <button class="btn" onclick="adminLogin()">Entrar no Painel Admin</button>
@@ -587,6 +589,7 @@
             try {
                 return JSON.parse(localStorage.getItem(MASTER_STORAGE_KEY) || '[]');
             } catch (e) {
+                console.error('Erro ao carregar keys:', e);
                 return [];
             }
         }
@@ -599,7 +602,10 @@
             const keys = getAllKeys();
             const expiration = Date.now() + (expirationHours * 60 * 60 * 1000);
             
+            // Remove key existente se houver
             const filteredKeys = keys.filter(k => k.key_value !== keyValue);
+            
+            // Adiciona nova key
             filteredKeys.push({
                 key_value: keyValue,
                 expiration: expiration,
@@ -616,7 +622,24 @@
             const keys = getAllKeys();
             const agora = Date.now();
             const keyData = keys.find(k => k.key_value === keyValue);
-            return keyData && keyData.is_active && keyData.expiration > agora;
+            
+            if (!keyData) {
+                console.log('Key não encontrada:', keyValue);
+                return false;
+            }
+            
+            if (!keyData.is_active) {
+                console.log('Key inativa:', keyValue);
+                return false;
+            }
+            
+            if (keyData.expiration <= agora) {
+                console.log('Key expirada:', keyValue);
+                return false;
+            }
+            
+            console.log('Key válida:', keyValue);
+            return true;
         }
 
         function getTempoRestante(keyValue) {
@@ -642,11 +665,18 @@
             const element = document.getElementById(elementId);
             element.textContent = message;
             element.className = 'status ' + type;
-            setTimeout(() => { element.className = 'status'; }, 3000);
+            element.style.display = 'block';
+            
+            setTimeout(() => { 
+                element.className = 'status'; 
+                element.style.display = 'none';
+            }, 3000);
         }
 
         function login() {
             const key = document.getElementById('keyInput').value.trim();
+            console.log('Tentando login com key:', key);
+            
             if (!key) {
                 showStatus('Por favor, insira sua key', 'error');
                 return;
@@ -654,9 +684,11 @@
 
             showStatus('Validando key...', 'success');
             
+            // Pequeno delay para mostrar a mensagem
             setTimeout(() => {
                 if (isKeyValid(key)) {
                     sessionStorage.setItem(SESSION_KEY, key);
+                    showStatus('Login bem-sucedido!', 'success');
                     setupPanel(key);
                 } else {
                     showStatus('Key inválida ou expirada!', 'error');
@@ -668,6 +700,8 @@
             document.getElementById('userKey').textContent = key;
             
             const tempoRestante = getTempoRestante(key);
+            console.log('Tempo restante:', tempoRestante);
+            
             if (tempoRestante > 0) {
                 startTimer(tempoRestante);
                 showPage('panelPage');
@@ -689,15 +723,21 @@
                 timerElement.textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 
-                if (timer <= 300) timerElement.classList.add('timer-warning');
+                if (timer <= 300) {
+                    timerElement.classList.add('timer-warning');
+                } else {
+                    timerElement.classList.remove('timer-warning');
+                }
                 
                 if (--timer < 0) {
                     clearInterval(timerInterval);
                     logout();
+                    showStatus('Sua key expirou!', 'error');
                 }
             };
 
             updateTimer();
+            if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(updateTimer, 1000);
         }
 
@@ -808,6 +848,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             showPage('loginPage');
             
+            // Verificar se já está logado
+            const currentKey = sessionStorage.getItem(SESSION_KEY);
+            if (currentKey && isKeyValid(currentKey)) {
+                setupPanel(currentKey);
+            }
+            
             document.getElementById('keyInput').addEventListener('keypress', e => {
                 if (e.key === 'Enter') login();
             });
@@ -815,10 +861,13 @@
             document.getElementById('adminPasswordInput').addEventListener('keypress', e => {
                 if (e.key === 'Enter') adminLogin();
             });
+            
+            // Debug: Log todas as keys no console
+            console.log('Keys no localStorage:', getAllKeys());
         });
 
         window.addEventListener('beforeunload', () => {
-            sessionStorage.removeItem(SESSION_KEY);
+            if (timerInterval) clearInterval(timerInterval);
         });
     </script>
 </body>
