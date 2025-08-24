@@ -2,35 +2,42 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Painel Free Fire">
     <meta name="theme-color" content="#ff7e00">
-    <meta name="msapplication-TileColor" content="#ff7e00">
     <title>Acesso ao Painel - Auxílio Free Fire</title>
 
     <link rel="icon" href="icone.png" type="image/png">
     <link rel="apple-touch-icon" href="icone.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="data:application/json,{
+      \"name\": \"Painel Free Fire\",
+      \"short_name\": \"FreeFire\",
+      \"icons\": [
+        {
+          \"src\": \"icone.png\",
+          \"sizes\": \"192x192\",
+          \"type\": \"image/png\"
+        },
+        {
+          \"src\": \"icone.png\",
+          \"sizes\": \"512x512\", 
+          \"type\": \"image/png\"
+        }
+      ],
+      \"theme_color\": \"#ff7e00\",
+      \"background_color\": \"#0a0a0a\",
+      \"display\": \"standalone\",
+      \"start_url\": \"/\"
+    }">
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
-        /* Prevenir seleção de texto no iOS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        /* Inputs precisam permitir seleção */
-        input, textarea {
-            -webkit-user-select: text;
-            -webkit-touch-callout: default;
         }
         
         body {
@@ -38,10 +45,6 @@
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
         }
         
         #particles-js {
@@ -65,8 +68,6 @@
             padding: 25px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: env(safe-area-inset-top);
-            min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 60px);
         }
         
         header {
@@ -379,18 +380,6 @@
             color: #ff7e00;
             margin-bottom: 20px;
         }
-        
-        /* Esconder barra de endereço quando em standalone */
-        @media all and (display-mode: standalone) {
-            body {
-                overflow: hidden;
-            }
-            
-            /* Esconder instruções quando já estiver em modo standalone */
-            .instructions {
-                display: none !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -436,14 +425,14 @@
         <div id="adminLoginPage" class="page">
             <header>
                 <h1>Acesso Administrativo</h1>
-                <p>Digite a senha de administrador</p>
+                <p></p>
             </header>
             
             <div class="admin-login-page">
-                <h2>Área Restrita</h2>
+                <h2></h2>
                 
                 <div class="input-group">
-                    <label for="adminPasswordInput">Senha Administrativa</label>
+                    <label for="adminPasswordInput"></label>
                     <input type="password" id="adminPasswordInput" placeholder="Digite a senha administrativa">
                 </div>
                 
@@ -552,12 +541,6 @@
     </div>
 
     <script>
-        // Detectar se está em modo standalone (tela inicial)
-        function isRunningStandalone() {
-            return (window.navigator.standalone === true) || 
-                   (window.matchMedia('(display-mode: standalone)').matches);
-        }
-
         // Configuração das partículas
         particlesJS('particles-js', {
             "particles": {
@@ -577,21 +560,6 @@
         const SESSION_KEY = 'ff_current_session';
 
         let timerInterval;
-
-        // Esconder instruções se já estiver em modo standalone
-        if (isRunningStandalone()) {
-            const instructions = document.querySelector('.instructions');
-            if (instructions) {
-                instructions.style.display = 'none';
-            }
-        }
-
-        // Prevenir bounce/scroll no iOS
-        document.addEventListener('touchmove', function(e) {
-            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-                e.preventDefault();
-            }
-        }, { passive: false });
 
         // Função para mostrar página de login admin
         function showAdminLoginPage() {
@@ -747,7 +715,7 @@
         }
 
         function activateSelected() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox']:checked');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
             const selectedCount = checkboxes.length;
             
             if (selectedCount > 0) {
@@ -847,17 +815,6 @@
             document.getElementById('adminPasswordInput').addEventListener('keypress', e => {
                 if (e.key === 'Enter') adminLogin();
             });
-            
-            // Registrar Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('Falha no registro do ServiceWorker: ', error);
-                    });
-            }
         });
 
         window.addEventListener('beforeunload', () => {
