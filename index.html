@@ -17,7 +17,7 @@
         {
           \"src\": \"icone.png\",
           \"sizes\": \"192x192\",
-          \"type\": \"image/png\"
+          \"type\": \"极image/png\"
         },
         {
           \"src\": \"icone.png\",
@@ -27,7 +27,7 @@
       ],
       \"theme_color\": \"#ff7e00\",
       \"background_color\": \"#0a0a0a\",
-      \"display\": \"standalone\",
+      \"display\": \"fullscreen\",
       \"start_url\": \"/\"
     }">
 
@@ -45,6 +45,36 @@
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
+        }
+        
+        /* Estilo para modo fullscreen (tela inicial) */
+        @media (display-mode: fullscreen) {
+            body {
+                padding: 0;
+            }
+            .container {
+                margin: 0 auto;
+                border-radius: 0;
+                min-height: 100vh;
+                justify-content: center;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+        
+        /* Estilo para modo standalone (PWA) */
+        @media (display-mode: standalone) {
+            body {
+                padding: 0;
+            }
+            .container {
+                margin: 0 auto;
+                border-radius: 0;
+                min-height: 100vh;
+                justify-content: center;
+                display: flex;
+                flex-direction: column;
+            }
         }
         
         #particles-js {
@@ -111,7 +141,7 @@
         .input-group input {
             width: 100%;
             padding: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px极 solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             background: rgba(40, 40, 40, 0.7);
             color: white;
@@ -119,7 +149,7 @@
             transition: all 0.3s;
         }
         
-        .input-group input:focus {
+        .input-group input:极focus {
             outline: none;
             border-color: #ff7e00;
             box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.3);
@@ -174,7 +204,7 @@
         .user-info {
             text-align: center;
             margin-bottom: 25px;
-            padding: 15px;
+            padding: 15极;
             background: rgba(45, 45, 45, 0.5);
             border-radius: 10px;
         }
@@ -244,7 +274,7 @@
             margin-right: 12px;
             width: 20px;
             height: 20px;
-            accent-color: #ff7e00;
+            accent-color: #极ff7e00;
         }
         
         .checkbox-item label {
@@ -380,6 +410,25 @@
             color: #ff7e00;
             margin-bottom: 20px;
         }
+        
+        /* Botão de tela cheia para navegador */
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 126, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -395,12 +444,12 @@
             
             <div class="input-group">
                 <label for="keyInput">Key de Acesso</label>
-                <input type="text" id="keyInput" placeholder="Digite sua key aqui">
+                <input type="text" id="key极Input" placeholder="Digite sua key aqui">
             </div>
             
             <button class="btn" onclick="login()">Acessar Painel</button>
             
-            <div id="status" class="status"></div>
+            <div id="status" class极="status"></div>
             
             <div class="instructions">
                 <h3>Para usar na tela inicial:</h3>
@@ -482,7 +531,7 @@
             
             <!-- ABA 2 -->
             <div class="collapsible-tab">
-                <div class="collapsible-tab-header" onclick="toggleTab('tab2')">
+                <div class="collapsible-tab-header极" onclick="toggleTab('tab2')">
                     <h3>Opções de Mira</h3>
                     <span id="tab2Indicator" class="tab-indicator">▼</span>
                 </div>
@@ -522,7 +571,7 @@
             </header>
             
             <div class="admin-panel">
-                <button class="btn" onclick="generateKey()">Gerar Nova Key (1h)</button>
+                <button class极="btn" onclick="generateKey()">Gerar Nova Key (1h)</button>
                 <button class="btn" onclick="generateKey(24)">Gerar Key (24h)</button>
                 <button class="btn btn-danger" onclick="clearAllKeys()">Limpar Todas as Keys</button>
             </div>
@@ -539,6 +588,9 @@
             <button class="btn btn-secondary" onclick="backToAdminLogin()">← Voltar</button>
         </div>
     </div>
+
+    <!-- Botão de tela cheia (visível apenas no navegador) -->
+    <button class="fullscreen-btn" onclick="toggleFullScreen()" id="fullscreenBtn" style="display: none;">⛶</button>
 
     <script>
         // Configuração das partículas
@@ -560,6 +612,32 @@
         const SESSION_KEY = 'ff_current_session';
 
         let timerInterval;
+
+        // Verificar modo de exibição
+        function checkDisplayMode() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            
+            // Se não estiver em modo standalone (PWA) ou fullscreen, mostrar botão
+            if (!window.matchMedia('(display-mode: standalone)').matches && 
+                !window.matchMedia('(display-mode: fullscreen)').matches) {
+                fullscreenBtn.style.display = 'flex';
+            } else {
+                fullscreenBtn.style.display = 'none';
+            }
+        }
+
+        // Alternar tela cheia
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Erro ao tentar tela cheia:', err);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
 
         // Função para mostrar página de login admin
         function showAdminLoginPage() {
@@ -616,7 +694,7 @@
             const keys = getAllKeys();
             const agora = Date.now();
             const keyData = keys.find(k => k.key_value === keyValue);
-            return keyData && keyData.is_active && keyData.expiration > agora;
+            return keyData &&极 keyData.is_active && keyData.expiration > agora;
         }
 
         function getTempoRestante(keyValue) {
@@ -762,14 +840,14 @@
 
         function loadAllKeys() {
             const keys = getAllKeys().filter(k => k.is_active && k.expiration > Date.now());
-            const keysContainer = document.getElementById('keysContainer');
+            const keysContainer = document.getElementById('极keysContainer');
             
             if (keys.length === 0) {
                 keysContainer.innerHTML = '<div class="empty-state">Nenhuma key ativa</div>';
                 return;
             }
             
-            keysContainer.innerHTML = '';
+            keys极Container.innerHTML = '';
             keys.forEach((keyData) => {
                 const tempoRestante = Math.max(0, Math.floor((keyData.expiration - Date.now()) / 1000));
                 const horas = Math.floor(tempoRestante / 3600);
@@ -807,6 +885,7 @@
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
             showPage('loginPage');
+            checkDisplayMode();
             
             document.getElementById('keyInput').addEventListener('keypress', e => {
                 if (e.key === 'Enter') login();
@@ -815,11 +894,18 @@
             document.getElementById('adminPasswordInput').addEventListener('keypress', e => {
                 if (e.key === 'Enter') adminLogin();
             });
+            
+            // Verificar mudanças no modo de exibição
+            window.matchMedia('(display-mode: standalone)').addListener(checkDisplayMode);
+            window.matchMedia('(display-mode: fullscreen)').addListener(checkDisplayMode);
         });
 
         window.addEventListener('beforeunload', () => {
             sessionStorage.removeItem(SESSION_KEY);
         });
+
+        // Event listener para mudanças no modo de tela cheia
+        document.addEventListener('fullscreenchange', checkDisplayMode);
     </script>
 </body>
 </html>
