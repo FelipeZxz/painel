@@ -2,42 +2,35 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Painel Free Fire">
     <meta name="theme-color" content="#ff7e00">
+    <meta name="msapplication-TileColor" content="#ff7e00">
     <title>Acesso ao Painel - Auxílio Free Fire</title>
 
     <link rel="icon" href="icone.png" type="image/png">
     <link rel="apple-touch-icon" href="icone.png">
-    <link rel="manifest" href="data:application/json,{
-      \"name\": \"Painel Free Fire\",
-      \"short_name\": \"FreeFire\",
-      \"icons\": [
-        {
-          \"src\": \"icone.png\",
-          \"sizes\": \"192x192\",
-          \"type\": \"极image/png\"
-        },
-        {
-          \"src\": \"icone.png\",
-          \"sizes\": \"512x512\", 
-          \"type\": \"image/png\"
-        }
-      ],
-      \"theme_color\": \"#ff7e00\",
-      \"background_color\": \"#0a0a0a\",
-      \"display\": \"fullscreen\",
-      \"start_url\": \"/\"
-    }">
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
+        /* Prevenir seleção de texto no iOS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Inputs precisam permitir seleção */
+        input, textarea {
+            -webkit-user-select: text;
+            -webkit-touch-callout: default;
         }
         
         body {
@@ -45,36 +38,10 @@
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
-        }
-        
-        /* Estilo para modo fullscreen (tela inicial) */
-        @media (display-mode: fullscreen) {
-            body {
-                padding: 0;
-            }
-            .container {
-                margin: 0 auto;
-                border-radius: 0;
-                min-height: 100vh;
-                justify-content: center;
-                display: flex;
-                flex-direction: column;
-            }
-        }
-        
-        /* Estilo para modo standalone (PWA) */
-        @media (display-mode: standalone) {
-            body {
-                padding: 0;
-            }
-            .container {
-                margin: 0 auto;
-                border-radius: 0;
-                min-height: 100vh;
-                justify-content: center;
-                display: flex;
-                flex-direction: column;
-            }
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
         
         #particles-js {
@@ -98,6 +65,8 @@
             padding: 25px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: env(safe-area-inset-top);
+            min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 60px);
         }
         
         header {
@@ -141,7 +110,7 @@
         .input-group input {
             width: 100%;
             padding: 12px;
-            border: 2px极 solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             background: rgba(40, 40, 40, 0.7);
             color: white;
@@ -149,7 +118,7 @@
             transition: all 0.3s;
         }
         
-        .input-group input:极focus {
+        .input-group input:focus {
             outline: none;
             border-color: #ff7e00;
             box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.3);
@@ -204,7 +173,7 @@
         .user-info {
             text-align: center;
             margin-bottom: 25px;
-            padding: 15极;
+            padding: 15px;
             background: rgba(45, 45, 45, 0.5);
             border-radius: 10px;
         }
@@ -274,7 +243,7 @@
             margin-right: 12px;
             width: 20px;
             height: 20px;
-            accent-color: #极ff7e00;
+            accent-color: #ff7e00;
         }
         
         .checkbox-item label {
@@ -411,23 +380,16 @@
             margin-bottom: 20px;
         }
         
-        /* Botão de tela cheia para navegador */
-        .fullscreen-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 126, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Esconder barra de endereço quando em standalone */
+        @media all and (display-mode: standalone) {
+            body {
+                overflow: hidden;
+            }
+            
+            /* Esconder instruções quando já estiver em modo standalone */
+            .instructions {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -444,12 +406,12 @@
             
             <div class="input-group">
                 <label for="keyInput">Key de Acesso</label>
-                <input type="text" id="key极Input" placeholder="Digite sua key aqui">
+                <input type="text" id="keyInput" placeholder="Digite sua key aqui">
             </div>
             
             <button class="btn" onclick="login()">Acessar Painel</button>
             
-            <div id="status" class极="status"></div>
+            <div id="status" class="status"></div>
             
             <div class="instructions">
                 <h3>Para usar na tela inicial:</h3>
@@ -474,14 +436,14 @@
         <div id="adminLoginPage" class="page">
             <header>
                 <h1>Acesso Administrativo</h1>
-                <p></p>
+                <p>Digite a senha de administrador</p>
             </header>
             
             <div class="admin-login-page">
-                <h2></h2>
+                <h2>Área Restrita</h2>
                 
                 <div class="input-group">
-                    <label for="adminPasswordInput"></label>
+                    <label for="adminPasswordInput">Senha Administrativa</label>
                     <input type="password" id="adminPasswordInput" placeholder="Digite a senha administrativa">
                 </div>
                 
@@ -531,7 +493,7 @@
             
             <!-- ABA 2 -->
             <div class="collapsible-tab">
-                <div class="collapsible-tab-header极" onclick="toggleTab('tab2')">
+                <div class="collapsible-tab-header" onclick="toggleTab('tab2')">
                     <h3>Opções de Mira</h3>
                     <span id="tab2Indicator" class="tab-indicator">▼</span>
                 </div>
@@ -571,7 +533,7 @@
             </header>
             
             <div class="admin-panel">
-                <button class极="btn" onclick="generateKey()">Gerar Nova Key (1h)</button>
+                <button class="btn" onclick="generateKey()">Gerar Nova Key (1h)</button>
                 <button class="btn" onclick="generateKey(24)">Gerar Key (24h)</button>
                 <button class="btn btn-danger" onclick="clearAllKeys()">Limpar Todas as Keys</button>
             </div>
@@ -589,10 +551,13 @@
         </div>
     </div>
 
-    <!-- Botão de tela cheia (visível apenas no navegador) -->
-    <button class="fullscreen-btn" onclick="toggleFullScreen()" id="fullscreenBtn" style="display: none;">⛶</button>
-
     <script>
+        // Detectar se está em modo standalone (tela inicial)
+        function isRunningStandalone() {
+            return (window.navigator.standalone === true) || 
+                   (window.matchMedia('(display-mode: standalone)').matches);
+        }
+
         // Configuração das partículas
         particlesJS('particles-js', {
             "particles": {
@@ -613,31 +578,20 @@
 
         let timerInterval;
 
-        // Verificar modo de exibição
-        function checkDisplayMode() {
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            
-            // Se não estiver em modo standalone (PWA) ou fullscreen, mostrar botão
-            if (!window.matchMedia('(display-mode: standalone)').matches && 
-                !window.matchMedia('(display-mode: fullscreen)').matches) {
-                fullscreenBtn.style.display = 'flex';
-            } else {
-                fullscreenBtn.style.display = 'none';
+        // Esconder instruções se já estiver em modo standalone
+        if (isRunningStandalone()) {
+            const instructions = document.querySelector('.instructions');
+            if (instructions) {
+                instructions.style.display = 'none';
             }
         }
 
-        // Alternar tela cheia
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log('Erro ao tentar tela cheia:', err);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+        // Prevenir bounce/scroll no iOS
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
             }
-        }
+        }, { passive: false });
 
         // Função para mostrar página de login admin
         function showAdminLoginPage() {
@@ -694,7 +648,7 @@
             const keys = getAllKeys();
             const agora = Date.now();
             const keyData = keys.find(k => k.key_value === keyValue);
-            return keyData &&极 keyData.is_active && keyData.expiration > agora;
+            return keyData && keyData.is_active && keyData.expiration > agora;
         }
 
         function getTempoRestante(keyValue) {
@@ -793,7 +747,7 @@
         }
 
         function activateSelected() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const checkboxes = document.querySelectorAll('input[type="checkbox']:checked');
             const selectedCount = checkboxes.length;
             
             if (selectedCount > 0) {
@@ -840,14 +794,14 @@
 
         function loadAllKeys() {
             const keys = getAllKeys().filter(k => k.is_active && k.expiration > Date.now());
-            const keysContainer = document.getElementById('极keysContainer');
+            const keysContainer = document.getElementById('keysContainer');
             
             if (keys.length === 0) {
                 keysContainer.innerHTML = '<div class="empty-state">Nenhuma key ativa</div>';
                 return;
             }
             
-            keys极Container.innerHTML = '';
+            keysContainer.innerHTML = '';
             keys.forEach((keyData) => {
                 const tempoRestante = Math.max(0, Math.floor((keyData.expiration - Date.now()) / 1000));
                 const horas = Math.floor(tempoRestante / 3600);
@@ -885,7 +839,6 @@
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
             showPage('loginPage');
-            checkDisplayMode();
             
             document.getElementById('keyInput').addEventListener('keypress', e => {
                 if (e.key === 'Enter') login();
@@ -895,17 +848,21 @@
                 if (e.key === 'Enter') adminLogin();
             });
             
-            // Verificar mudanças no modo de exibição
-            window.matchMedia('(display-mode: standalone)').addListener(checkDisplayMode);
-            window.matchMedia('(display-mode: fullscreen)').addListener(checkDisplayMode);
+            // Registrar Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registrado com sucesso: ', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Falha no registro do ServiceWorker: ', error);
+                    });
+            }
         });
 
         window.addEventListener('beforeunload', () => {
             sessionStorage.removeItem(SESSION_KEY);
         });
-
-        // Event listener para mudanças no modo de tela cheia
-        document.addEventListener('fullscreenchange', checkDisplayMode);
     </script>
 </body>
 </html>
