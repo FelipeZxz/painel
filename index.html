@@ -265,8 +265,6 @@
             transition: background 0.3s ease;
         }
         
-        }
-        
         .collapsible-tab-header h3 {
             font-size: 1.1rem;
             color: #ff7e00;
@@ -350,6 +348,12 @@
             opacity: 1;
             transform: translateY(0);
             animation: bounceIn 0.6s ease;
+        }
+        
+        .active-features h3 {
+            color: #00c853; /* Verde para "Recursos Injetados" */
+            margin-bottom: 10px;
+            font-weight: bold;
         }
         
         .tab-indicator {
@@ -589,13 +593,13 @@
                 </div>
             </div>
             
-            <!-- Recursos ativados (inicialmente oculto) -->
+            <!-- Recursos Injetados (inicialmente oculto) -->
             <div id="activeFeatures" class="active-features">
-                <h3>Recursos Ativados:</h3>
-                <p id="activeFeaturesList">Nenhum recurso ativado</p>
+                <h3>Recursos Injetados</h3>
+                <p id="activeFeaturesList">Nenhum recurso injetado</p>
             </div>
             
-            <button class="btn" onclick="activateSelected()">Ativar Selecionados</button>
+            <button class="btn" onclick="activateSelected()">Injetar Selecionados</button>
             <button class="btn btn-danger" onclick="logout()">Sair do Painel</button>
         </div>
     </div>
@@ -730,7 +734,7 @@
         function setupPanel(key) {
             // Mostra a key mascarada no painel
             document.getElementById('userKey').textContent = maskKey(key);
-            // Tempo ilimitado para a key fixa
+            // Tempo ilimitado para la key fixa
             document.getElementById('timeRemaining').textContent = "Ilimitado";
         }
 
@@ -757,18 +761,14 @@
                 activateBtn.classList.add('btn-loading');
                 
                 setTimeout(() => {
-                    const activeFeatures = [];
-                    checkboxes.forEach(checkbox => {
-                        activeFeatures.push(checkbox.nextElementSibling.textContent);
-                    });
-                    
-                    document.getElementById('activeFeaturesList').textContent = activeFeatures.join(', ');
+                    // Em vez de mostrar os nomes das opções, mostra "Abrir Free Fire"
+                    document.getElementById('activeFeaturesList').textContent = "Abra o Free Fire";
                     document.getElementById('activeFeatures').classList.add('show');
                     
                     // Remove animação de loading
                     activateBtn.classList.remove('btn-loading');
                     
-                    showStatus(selectedCount + ' recurso(s) ativado(s)!', 'success');
+                    showStatus(selectedCount + ' recurso(s) injetados(s)!', 'success');
                 }, 800);
             } else {
                 showStatus('Selecione pelo menos uma opção!', 'error');
